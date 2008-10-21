@@ -38,18 +38,18 @@ The categories and products are exposed to the site using the following tags:
 
 === Product Listing
 
-<h2>Product Listing</h2>
-<r:categories:each order="title ASC">
-  <div class="category">
-    <h3><r:category:title /></h3>
-    <r:products:each order="price ASC">
-      <div class="product">
-        <h4><r:product:title /> (<r:product:price precision="0" />)</h4>
-        <p><r:product:image /><r:product:description /></p>
-      </div>
-    </r:products:each>
-  </div>
-</r:categories:each>
+	<h2>Product Listing</h2>
+	<r:categories:each order="title ASC">
+		<div class="category">
+		  <h3><r:category:title /></h3>
+		  <r:products:each order="price ASC">
+		    <div class="product">
+		      <h4><r:product:title /> (<r:product:price precision="0" />)</h4>
+		      <p><r:product:image /><r:product:description /></p>
+		    </div>
+		  </r:products:each>
+		</div>
+	</r:categories:each>
 
 === Order Form (for mailer extension)
 
@@ -58,23 +58,23 @@ NOTE: The following uses an array of variables that need to be parsed by the
       version is available at:
       http://github.com/jstirk/radiant-mailer-extension/tree/master
 
-<h2>Order Form</h2>
-<table>
-  <tr><th>Product</th><th>Cost</th><th>Quantity</th></tr>
-<r:categories:each order="title ASC">
-  <tr><th colspan="3"><r:category:title /></th></tr>
- <r:products:each order="price ASC">
-  <tr>
-    <td>
-      <r:product:title />
-      <input type="hidden" name="mailer[products][<r:product:id />][name]" value="<r:product:title />" />
-    </td>
-    <td><r:product:price /></td>
-    <td><input type="text" name="mailer[products][<r:product:id />][qty]" value="0" /></td>
-  </tr>
- </r:products:each>
-</r:categories:each>
-</table>
+	<h2>Order Form</h2>
+	<table>
+		<tr><th>Product</th><th>Cost</th><th>Quantity</th></tr>
+	<r:categories:each order="title ASC">
+		<tr><th colspan="3"><r:category:title /></th></tr>
+	 <r:products:each order="price ASC">
+		<tr>
+		  <td>
+		    <r:product:title />
+		    <input type="hidden" name="mailer[products][<r:product:id />][name]" value="<r:product:title />" />
+		  </td>
+		  <td><r:product:price /></td>
+		  <td><input type="text" name="mailer[products][<r:product:id />][qty]" value="0" /></td>
+		</tr>
+	 </r:products:each>
+	</r:categories:each>
+	</table>
 
 == TODO
 * Tests
@@ -82,7 +82,7 @@ NOTE: The following uses an array of variables that need to be parsed by the
 
 == History
 
-Version 0.1
+  Version 0.1
   Original version by Jason Stirk - http://griffin.oobleyboo.com/
   Contact: jstirk@gmail.com
 
