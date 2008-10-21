@@ -54,9 +54,11 @@ The categories and products are exposed to the site using the following tags:
 === Order Form (for mailer extension)
 
 NOTE: The following uses an array of variables that need to be parsed by the
-      mailer extension. This curently isn't baked into mailer, but my patched
-      version is available at:
-      http://github.com/jstirk/radiant-mailer-extension/tree/master
+mailer extension. This curently isn't baked into mailer, but my patched
+version is available at:
+http://github.com/jstirk/radiant-mailer-extension/tree/master
+
+
 
 	<h2>Order Form</h2>
 	<table>
