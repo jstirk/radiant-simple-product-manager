@@ -1,0 +1,67 @@
+  <% include_stylesheet 'admin/products/products' %>
+
+  <h1>Product Categories</h1>
+
+  <p>You can enter categories here, which will show up on the public side of your website.</p>
+
+  <table cellspacing="0" cellpadding="0" border="0" class="index" id="categories">
+
+    <thead>
+      <tr>
+        <th class="category">Category</th>
+        <th class="modify">Modify</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% Category.find(:all).each do |category| %>
+        <tr class="node level-1">
+          <td class="category">
+          	<%= link_to category.title, category_edit_url(:id => category.id) %>
+          </td>
+          <td class="remove">
+            <%= link_to image('remove', :alt => 'Remove Category'), category_remove_url(:id => category.id) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+
+  </table>
+  <p><%= link_to image("products/new-category", :alt => "New Category"), {:controller => 'admin/category', :action => :new} %></p>
+
+<% if Category.count > 0 then %>
+  <h1>Products</h1>
+
+  <p>You can enter products here, which will show up on the public side of your website.</p>
+
+  <table cellspacing="0" cellpadding="0" border="0" class="index" id="products">
+
+    <thead>
+      <tr>
+        <th class="product">Product</th>
+        <th class="category">Category</th>
+        <th class="modify">Modify</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% Product.find(:all).each do |product| %>
+        <tr class="node level-1">
+          <td class="product">
+            <%# image('products/product') %>
+            <%= link_to product.title, product_edit_url(:id => product.id) %>
+          </td>
+          <td class="category">
+          	<%= link_to product.category.title, category_edit_url(:id => product.category.id) %>
+          </td>
+          <td class="remove">
+            <%= link_to image('remove', :alt => 'Remove product'), product_remove_url(:id => product.id) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+
+  </table>
+
+  <p><%= link_to image("products/new-product", :alt => "New product"), {:action => :new} %></p>
+<% end %>

@@ -1,0 +1,88 @@
+= Simple Product Manager
+
+A lightweight extension providing a mechanism to handle products and
+categories that can then be used across the rest of the RadiantCMS site.
+
+== Purpose
+
+Although simple product/category systems can be created using child pages and
+built in Radant tags, this can become a hassle - especially when it comes to
+maintaining linked Ordering and Product List pages.
+
+This extension was created to make this process simpler by storing it all in
+one location (the DB) so as that it is easy to reuse the information across
+the site.
+
+== Usage
+
+The extension adds a "Products" page which provides a simple mechanism to add 
+categories and products.
+
+Currently, each Product is as simple as possible - only including a title, a
+description, a price and a URL for a photo.
+
+The categories and products are exposed to the site using the following tags:
+  <r:products:each order="" /> ... </r:products:each>
+  <r:product:id />
+  <r:product:title />
+  <r:product:description />
+  <r:product:price precision="" unit="" separator="" delimiter="" />
+  <r:product:image />
+  <r:product:photo_url />
+  <r:categories:each order="" />
+  <r:category:id />
+  <r:category:title />
+  <r:category:description />
+  
+== Examples
+
+=== Product Listing
+
+<h2>Product Listing</h2>
+<r:categories:each order="title ASC">
+  <div class="category">
+    <h3><r:category:title /></h3>
+    <r:products:each order="price ASC">
+      <div class="product">
+        <h4><r:product:title /> (<r:product:price precision="0" />)</h4>
+        <p><r:product:image /><r:product:description /></p>
+      </div>
+    </r:products:each>
+  </div>
+</r:categories:each>
+
+=== Order Form (for mailer extension)
+
+NOTE: The following uses an array of variables that need to be parsed by the
+      mailer extension. This curently isn't baked into mailer, but my patched
+      version is available at:
+      http://github.com/jstirk/radiant-mailer-extension/tree/master
+
+<h2>Order Form</h2>
+<table>
+  <tr><th>Product</th><th>Cost</th><th>Quantity</th></tr>
+<r:categories:each order="title ASC">
+  <tr><th colspan="3"><r:category:title /></th></tr>
+ <r:products:each order="price ASC">
+  <tr>
+    <td>
+      <r:product:title />
+      <input type="hidden" name="mailer[products][<r:product:id />][name]" value="<r:product:title />" />
+    </td>
+    <td><r:product:price /></td>
+    <td><input type="text" name="mailer[products][<r:product:id />][qty]" value="0" /></td>
+  </tr>
+ </r:products:each>
+</r:categories:each>
+</table>
+
+== TODO
+* Tests
+* File upload for Photos
+
+== History
+
+Version 0.1
+  Original version by Jason Stirk - http://griffin.oobleyboo.com/
+  Contact: jstirk@gmail.com
+

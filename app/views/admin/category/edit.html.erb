@@ -1,0 +1,36 @@
+  <% include_stylesheet 'admin/categorys/categorys' %>
+
+  <% if @category.new_record? %>
+    <h1>New Category</h1>
+  <% else %>
+    <h1>Edit: <%= @category.title %></h1>
+  <% end %>
+
+  <% form_tag do %>
+    <div class="form-area">
+      <div  id="category_form_area">
+        <p class="title">
+          <label for="category_title">Title</label>
+          <%= text_field "category", "title", :class => 'textbox', :maxlength => 255 %>
+        </p>
+       
+        <p class="description">
+          <label for="category_description">Description</label>
+          <%= text_area "category", "description", :class => 'textbox', :maxlength => 255 %>
+        </p>
+        
+
+
+
+         <span class="clear">&nbsp;</span>
+      </div>
+    </div>
+
+    <p class="buttons">
+      <%= save_model_button(@category) %>
+      <%= save_model_and_continue_editing_button(@category) %>
+      or 
+      <%= link_to "Cancel", {:action => :index} %>
+    </p>
+  <% end %>
+
