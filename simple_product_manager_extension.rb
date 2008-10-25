@@ -3,7 +3,7 @@
 
 class SimpleProductManagerExtension < Radiant::Extension
   version "0.1"
-  description "Simple extension to handle product pages and a basic mailer order form."
+  description "Manages Products and Product Categories for use across the site."
   url "http://github.com/jstirk/radiant-simple-product-manager/tree/master"
   
   define_routes do |map|
