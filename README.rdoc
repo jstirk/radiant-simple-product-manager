@@ -22,7 +22,8 @@ Currently, each Product is as simple as possible - only including a title, a
 description, a price and a URL for a photo.
 
 The categories and products are exposed to the site using the following tags:
-	<r:product:find where=""> ... </r:product>
+
+  <r:product:find where=""> ... </r:product>
   <r:products:each where="" order=""> ... </r:products:each>
   <r:product:id />
   <r:product:title />
