@@ -4,7 +4,7 @@
 class SimpleProductManagerExtension < Radiant::Extension
   version "0.1"
   description "Simple extension to handle product pages and a basic mailer order form."
-  url "http://griffin.oobleyboo.com/projects/simple_product_manager"
+  url "http://github.com/jstirk/radiant-simple-product-manager/tree/master"
   
   define_routes do |map|
     #map.connect 'admin/products/:action', :controller => 'admin/simple_product_manager'
