@@ -22,14 +22,16 @@ Currently, each Product is as simple as possible - only including a title, a
 description, a price and a URL for a photo.
 
 The categories and products are exposed to the site using the following tags:
-  <r:products:each order="" /> ... </r:products:each>
+	<r:product where=""> ... </r:product>
+  <r:products:each where="" order=""> ... </r:products:each>
   <r:product:id />
   <r:product:title />
   <r:product:description />
   <r:product:price precision="" unit="" separator="" delimiter="" />
   <r:product:image />
   <r:product:photo_url />
-  <r:categories:each order="" />
+  <r:category where=""> ... </r:category>
+  <r:categories:each where="" order=""> ... </r:categories:each>
   <r:category:id />
   <r:category:title />
   <r:category:description />
