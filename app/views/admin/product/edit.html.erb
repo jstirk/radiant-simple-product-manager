@@ -1,5 +1,3 @@
-  <% include_stylesheet 'admin/products/products' %>
-
   <% if @product.new_record? %>
     <h1>New Product</h1>
   <% else %>
@@ -14,28 +12,25 @@
           <%= text_field "product", "title", :class => 'textbox', :maxlength => 255 %>
         </p>
         
-        <p class="category">
-          <label for="product_category_id">Category</label>
+        <p class="category title row">
+          <label for="product_category_id">Category</label><br />
           <%= select "product", "category_id", Category.find(:all).collect { |x| [ x.title, x.id ] }, :selected => @product.category_id %>
         </p>
         
-        <p class="price">
+        <p class="price title row">
           <label for="product_price">Price</label>
           <%= text_field "product", "price", :class => 'textbox', :maxlength => 255 %>
         </p>
         
-        <p class="photo">
+        <p class="photo row title">
           <label for="product_photo">Photo</label>
           <%= text_field "product", "photo", :class => 'textbox', :maxlength => 255 %>
         </p>
 
-        <p class="description">
-          <label for="product_description">Description</label>
-          <%= text_area "product", "description", :class => 'textbox', :maxlength => 255 %>
+        <p class="description row">
+          <label for="product_description">Description</label><br />
+          <%= text_area "product", "description", :class => 'textarea', :maxlength => 255 %>
         </p>
-        
-
-
 
          <span class="clear">&nbsp;</span>
       </div>

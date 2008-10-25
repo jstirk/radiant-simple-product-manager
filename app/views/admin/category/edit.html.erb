@@ -1,5 +1,3 @@
-  <% include_stylesheet 'admin/categorys/categorys' %>
-
   <% if @category.new_record? %>
     <h1>New Category</h1>
   <% else %>
@@ -14,14 +12,11 @@
           <%= text_field "category", "title", :class => 'textbox', :maxlength => 255 %>
         </p>
        
-        <p class="description">
-          <label for="category_description">Description</label>
-          <%= text_area "category", "description", :class => 'textbox', :maxlength => 255 %>
+        <p class="description row title">
+          <label for="category_description">Description</label><br />
+          <%= text_area "category", "description", :class => 'textarea', :maxlength => 255 %>
         </p>
         
-
-
-
          <span class="clear">&nbsp;</span>
       </div>
     </div>
