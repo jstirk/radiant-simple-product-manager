@@ -6,12 +6,16 @@ module SimpleProductManagerTag
   tag 'products' do |tag|
     tag.expand
   end
+  
+  tag 'product' do |tag|
+  	tag.expand
+  end
 
 	desc "Find a specific product using the SQL conditions specified by 'where'"  
-  tag 'product' do |tag|
+  tag 'product:find' do |tag|
     attr = tag.attr.symbolize_keys
     where=attr[:where]
-    product=Product.find(:first, :condition => where)
+    product=Product.find(:first, :conditions => where)
     if product then
     	tag.locals.product = product
     end
@@ -56,16 +60,24 @@ module SimpleProductManagerTag
   
  	desc "Renders the price of the current product loaded by <r:product> or <r:products:each>. Formatting can be specified by 'precision', 'unit', 'separator' and 'delimiter'"
   tag 'product:price' do |tag|
+	  attr = tag.attr.symbolize_keys
     product = tag.locals.product
+    precision=attr[:precision]
+    if precision.nil? then
+    	precision=2
+    else
+    	precision=precision.to_i
+    end
     number_to_currency(product.price.to_f, 
-                       :precision => attr[:precision] || 2, 
-                       :unit => attr[:where] || "$",
+                       :precision => precision,
+                       :unit => attr[:unit] || "$",
                        :separator => attr[:separator] || ".",
-                       :delimiter => aattr[:delimiter] || ",")
+                       :delimiter => attr[:delimiter] || ",")
   end
   
   desc "Renders an <img> element for the current product loaded by <r:product> or <r:products:each>.. Optionally takes 'width' and 'height'."
   tag 'product:image' do |tag|
+	  attr = tag.attr.symbolize_keys
     product = tag.locals.product
     image_tag product.photo, :alt => product.title, :size => "#{attr[:width]}x#{attr[:height]}"
   end
@@ -80,11 +92,15 @@ module SimpleProductManagerTag
     tag.expand
   end
   
-	desc "Find a specific category using the SQL conditions specified by 'where'"  
   tag 'category' do |tag|
+    tag.expand
+  end
+  
+	desc "Find a specific category using the SQL conditions specified by 'where'"  
+  tag 'category:find' do |tag|
 		attr = tag.attr.symbolize_keys
     where=attr[:where]
-    category=Category.find(:first, :condition => where)
+    category=Category.find(:first, :conditions => where)
     if category then
     	tag.locals.category = category
     end

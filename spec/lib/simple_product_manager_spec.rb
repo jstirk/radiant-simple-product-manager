@@ -1,20 +1,19 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe SimpleProductManager do
+describe 'SimpleProductManager' do
 	scenario :products
 	
-
-	w%(products categories).each do |type|
+	%w(products categories).each do |type|
 		describe "<r:#{type}>" do
-			it "shouldn't affect page content"
+			it "shouldn't affect page content" do
 				pages(:home).should render("<r:#{type}>foo</r:#{type}>").as('foo')
 			end
 		end
 	end
 	
-	describe '<r:product>' do
+	describe '<r:product:find>' do
 		it "should use 'where' option correctly" do
-			pages(:home).should render('<r:product where="price > 3.90"><r:product:title /></r:product>').as('Croissant')
+			pages(:home).should render('<r:product:find where="price > 3.90"><r:product:title /></r:product:find>').as('Croissant')
 		end
 	end
 	
@@ -37,14 +36,14 @@ describe SimpleProductManager do
 		end
 	end
 	
-	w%(id title description).each do |type|
+	%w(id title description).each do |type|
 		describe "<r:product:#{type}>" do
 			it "should work inside of products:each" do
-				pages(:home).should render("<r:products:each><r:product:#{type} />,</r:products:each>").as(Products.find(:all).collect { |p| p.send(type.to_sym) }.join(',') + ',')
+				pages(:home).should render("<r:products:each order=\"title\"><r:product:#{type} />,</r:products:each>").as(Product.find(:all, :order => 'title').collect { |p| p.send(type.to_sym) }.join(',') + ',')
 			end
 			
 			it "should work inside of product" do
-				pages(:home).should render("<r:product where=\"title='white'\"><r:product:#{type} /></r:product>").as(Products.find_by_title('White').send(type.to_sym))
+				pages(:home).should render("<r:product:find where=\"title='White'\"><r:product:#{type} /></r:product:find>").as(Product.find_by_title('White').send(type.to_sym).to_s)
 			end
 		end
 	end
@@ -55,28 +54,27 @@ describe SimpleProductManager do
 		end
 		
 		it "should display in $0.00 format by default" do
-			pages(:home).should render("<r:product where=\"title='white'\"><r:product:price /></r:product>").as('$4,000.00')
+			pages(:home).should render("<r:product:find where=\"title='Croissant'\"><r:product:price /></r:product:find>").as('$4,000.00')
 		end
 		
 		it "should display in custom format if asked" do
-			pages(:home).should render("<r:product where=\"title='white'\"><r:product:price precision=\"1\" unit=\"%\" separator=\"-\" delimiter=\"|\"/></r:product>").as('%4|000-0')
+			pages(:home).should render("<r:product:find where=\"title='Croissant'\"><r:product:price precision=\"1\" unit=\"%\" separator=\"-\" delimiter=\"|\"/></r:product:find>").as('%4|000-0')
 		end
 	end
 	
 	describe "<r:product:photo_url>" do
 		it "should work inside of products:each" do
-			pages(:home).should render("<r:products:each><r:product:photo_url />,</r:products:each>").as(Products.find(:all).collect { |p| p.title + '.png' }.join(',') + ',')
+			pages(:home).should render("<r:products:each order=\"title\"><r:product:photo_url />,</r:products:each>").as(Product.find(:all, :order => 'title').collect { |p| p.title + '.png' }.join(',') + ',')
 		end
 		
 		it "should work inside of product" do
-			pages(:home).should render("<r:product where=\"title='white'\"><r:product:photo_url /></r:product").as('White.png')
+			pages(:home).should render("<r:product:find where=\"title='White'\"><r:product:photo_url /></r:product:find>").as('White.png')
 		end
 	end
 	
-	
 	describe '<r:category>' do
 		it "should use 'where' option correctly" do
-			pages(:home).should render('<r:category where="title=\'Bread\'"><r:product:title /></r:product>').as('Bread')
+			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:category:title /></r:category:find>').as('Bread')
 		end
 	end
 	
@@ -91,20 +89,19 @@ describe SimpleProductManager do
 		end
 				
 		it "should restrict OK by title" do
-			pages(:home).should render('<r:categories:each where="title=\'Bread\'"><r:category:title />,</r:categories:each>').as('Bread')
+			pages(:home).should render('<r:categories:each where="title=\'Bread\'"><r:category:title /></r:categories:each>').as('Bread')
 		end
 	end
 	
-	w%(id title description).each do |type|
+	%w(id title description).each do |type|
 		describe "<r:category:#{type}>" do
 			it "should work inside of categories:each" do
-				pages(:home).should render("<r:categories:each><r:category:#{type} />,</r:categories:each>").as(Categories.find(:all).collect { |p| p.send(type.to_sym) }.join(',') + ',')
+				pages(:home).should render("<r:categories:each><r:category:#{type} />,</r:categories:each>").as(Category.find(:all).collect { |p| p.send(type.to_sym) }.join(',') + ',')
 			end
 			
 			it "should work inside of category" do
-				pages(:home).should render("<r:category where=\"title='Bread'\"><r:category:#{type} /></r:category>").as(Products.find_by_title('White').send(type.to_sym))
+				pages(:home).should render("<r:category:find where=\"title='Bread'\"><r:category:#{type} /></r:category:find>").as(Category.find_by_title('Bread').send(type.to_sym).to_s)
 			end
 		end
 	end
-
 end

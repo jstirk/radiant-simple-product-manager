@@ -22,7 +22,7 @@ Currently, each Product is as simple as possible - only including a title, a
 description, a price and a URL for a photo.
 
 The categories and products are exposed to the site using the following tags:
-	<r:product where=""> ... </r:product>
+	<r:product:find where=""> ... </r:product>
   <r:products:each where="" order=""> ... </r:products:each>
   <r:product:id />
   <r:product:title />
@@ -30,7 +30,7 @@ The categories and products are exposed to the site using the following tags:
   <r:product:price precision="" unit="" separator="" delimiter="" />
   <r:product:image />
   <r:product:photo_url />
-  <r:category where=""> ... </r:category>
+  <r:category:find where=""> ... </r:category>
   <r:categories:each where="" order=""> ... </r:categories:each>
   <r:category:id />
   <r:category:title />
@@ -81,7 +81,6 @@ http://github.com/jstirk/radiant-mailer-extension/tree/master
 	</table>
 
 == TODO
-* Tests
 * File upload for Photos
 
 == History

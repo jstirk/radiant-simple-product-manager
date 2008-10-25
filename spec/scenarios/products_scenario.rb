@@ -20,8 +20,8 @@ class ProductsScenario < Scenario::Base
   		list.each do |name, price|
   			p=Product.new(:title => name, 
   			              :description => 'foo', 
-  			              :category => Category.find_by_name(catname),
-  			              :image => name + '.png',
+  			              :category_id => Category.find_by_title(catname).id,
+  			              :photo => name + '.png',
   			              :price => price)
 	  		p.save
 	  	end
