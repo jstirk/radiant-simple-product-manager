@@ -1,4 +1,4 @@
-class ProductsScenario < Scenario::Base
+class ProductsDataset < Dataset::Base
   uses :pages
 
   def load

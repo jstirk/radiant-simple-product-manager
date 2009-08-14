@@ -1,7 +1,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe 'SimpleProductManager' do
-	scenario :products
+	dataset :pages
+	dataset :products
 	
 	%w(products categories).each do |type|
 		describe "<r:#{type}>" do
