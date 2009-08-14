@@ -1,4 +1,4 @@
-class Admin::CategoryController < Admin::AbstractModelController
+class Admin::CategoryController < Admin::ResourceController
 	model_class Category
 	
 	def index

@@ -1,3 +1,3 @@
-class Admin::ProductController < Admin::AbstractModelController
+class Admin::ProductController < Admin::ResourceController
 	model_class Product
 end
