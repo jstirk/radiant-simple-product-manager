@@ -10,6 +10,8 @@ class Admin::ProductController < Admin::ResourceController
       else
         flash[:notice] = "Error creating the product"
       end
+    else
+      render :action => :edit
     end
   end
   

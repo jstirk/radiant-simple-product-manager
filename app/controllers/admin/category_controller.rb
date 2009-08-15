@@ -14,6 +14,8 @@ class Admin::CategoryController < Admin::ResourceController
       else
         flash[:notice] = "Error creating the category"
       end
+    else
+      render :action => :edit
     end
   end
   
