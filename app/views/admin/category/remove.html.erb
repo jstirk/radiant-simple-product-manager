@@ -2,7 +2,7 @@
 
   <p>Are you sure you want to <strong class="warning">permanently remove</strong> the following category?</p>
   
-<% if @category.products.count > 0  or @category.products.count > 0 then %>
+<% if @category.products.count > 0  then %>
   <p><strong class="warning">NOTE: This will also delete any products assigned to this Category.</strong></p>
 <% end %>
 
