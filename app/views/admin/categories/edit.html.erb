@@ -1,0 +1,5 @@
+<h1>Edit: <%= @category.title %></h1>
+
+<% form_tag(admin_category_url(@category), :method => :put) do |f| %>
+  <%= render :partial => 'category', :locals => { :f => f, :category => @category } %>
+<% end %>

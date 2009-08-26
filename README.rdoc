@@ -31,8 +31,8 @@ The categories and products are exposed to the site using the following tags:
   <r:product:price precision="" unit="" separator="" delimiter="" />
   <r:product:image />
   <r:product:photo_url />
-  <r:category:find where=""> ... </r:category>
-  <r:categories:each where="" order=""> ... </r:categories:each>
+  <r:category:find where="" tag=""> ... </r:category>
+  <r:categories:each where="" tag="" order=""> ... </r:categories:each>
   <r:category:id />
   <r:category:title />
   <r:category:description />
@@ -41,18 +41,18 @@ The categories and products are exposed to the site using the following tags:
 
 === Product Listing
 
-	<h2>Product Listing</h2>
-	<r:categories:each order="title ASC">
-		<div class="category">
-		  <h3><r:category:title /></h3>
-		  <r:products:each order="price ASC">
-		    <div class="product">
-		      <h4><r:product:title /> (<r:product:price precision="0" />)</h4>
-		      <p><r:product:image /><r:product:description /></p>
-		    </div>
-		  </r:products:each>
-		</div>
-	</r:categories:each>
+  <h2>Product Listing</h2>
+  <r:categories:each order="title ASC">
+    <div class="category">
+      <h3><r:category:title /></h3>
+      <r:products:each order="price ASC">
+        <div class="product">
+          <h4><r:product:title /> (<r:product:price precision="0" />)</h4>
+          <p><r:product:image /><r:product:description /></p>
+        </div>
+      </r:products:each>
+    </div>
+  </r:categories:each>
 
 === Order Form (for mailer extension)
 
@@ -63,28 +63,36 @@ http://github.com/jstirk/radiant-mailer-extension/tree/master
 
 
 
-	<h2>Order Form</h2>
-	<table>
-		<tr><th>Product</th><th>Cost</th><th>Quantity</th></tr>
-	<r:categories:each order="title ASC">
-		<tr><th colspan="3"><r:category:title /></th></tr>
-	 <r:products:each order="price ASC">
-		<tr>
-		  <td>
-		    <r:product:title />
-		    <input type="hidden" name="mailer[products][<r:product:id />][name]" value="<r:product:title />" />
-		  </td>
-		  <td><r:product:price /></td>
-		  <td><input type="text" name="mailer[products][<r:product:id />][qty]" value="0" /></td>
-		</tr>
-	 </r:products:each>
-	</r:categories:each>
-	</table>
+  <h2>Order Form</h2>
+  <table>
+    <tr><th>Product</th><th>Cost</th><th>Quantity</th></tr>
+  <r:categories:each order="title ASC">
+    <tr><th colspan="3"><r:category:title /></th></tr>
+   <r:products:each order="price ASC">
+    <tr>
+      <td>
+        <r:product:title />
+        <input type="hidden" name="mailer[products][<r:product:id />][name]" value="<r:product:title />" />
+      </td>
+      <td><r:product:price /></td>
+      <td><input type="text" name="mailer[products][<r:product:id />][qty]" value="0" /></td>
+    </tr>
+   </r:products:each>
+  </r:categories:each>
+  </table>
 
 == TODO
+* Deperately need some integration tests
 * File upload for Photos
+* Option for "/product/1-Product-Name" style public product pages
 
 == History
+
+  Version 0.3 (26 Aug 2009)
+  Added ability to tag Categories
+
+  Version 0.2 (15 Aug 2009)
+  Updated to work with Radiant-0.8.0
 
   Version 0.1
   Original version by Jason Stirk - http://griffin.oobleyboo.com/

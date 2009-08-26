@@ -14,26 +14,26 @@ describe 'SimpleProductManager' do
 	
 	describe '<r:product:find>' do
 		it "should use 'where' option correctly" do
-			pages(:home).should render('<r:product:find where="price > 3.90"><r:product:title /></r:product:find>').as('Croissant')
+			pages(:home).should render('<r:product:find where="price > 10.00" order="title ASC"><r:product:title /></r:product:find>').as('Croissant')
 		end
 	end
 	
 	describe '<r:products:each>' do
 		it "should itterate over every product by default" do
-			# We have 5 products - one dot for each one
-			pages(:home).should render('<r:products:each>.</r:products:each>').as('.....')
+			# We have 7 products - one dot for each one
+			pages(:home).should render('<r:products:each>.</r:products:each>').as('.......')
 		end
 		
 		it "should order OK by title" do
-			pages(:home).should render('<r:products:each order="title ASC"><r:product:title />,</r:products:each>').as('Croissant,Jam Tart,Multigrain,White,Wholemeal,')
+			pages(:home).should render('<r:products:each order="title ASC"><r:product:title />,</r:products:each>').as('Caesar Salad,Croissant,Green Salad,Jam Tart,Multigrain,White,Wholemeal,')
 		end
 		
 		it "should order OK by price" do
-			pages(:home).should render('<r:products:each order="price DESC"><r:product:title />,</r:products:each>').as('Croissant,Jam Tart,White,Wholemeal,Multigrain,')
+			pages(:home).should render('<r:products:each order="price DESC"><r:product:title />,</r:products:each>').as('Croissant,Caesar Salad,Green Salad,Jam Tart,White,Wholemeal,Multigrain,')
 		end
 		
 		it "should restrict OK by price" do
-			pages(:home).should render('<r:products:each where="price > 3.40" order="price DESC"><r:product:title />,</r:products:each>').as('Croissant,Jam Tart,')
+			pages(:home).should render('<r:products:each where="price > 3.40" order="price DESC"><r:product:title />,</r:products:each>').as('Croissant,Caesar Salad,Green Salad,Jam Tart,')
 		end
 	end
 	
@@ -51,7 +51,7 @@ describe 'SimpleProductManager' do
 	
 	describe '<r:product:price>' do
 		it "should work inside of products:each" do
-			pages(:home).should render("<r:products:each order=\"price ASC\"><r:product:price />,</r:products:each>").as('$3.00,$3.10,$3.20,$3.50,$4,000.00,')
+			pages(:home).should render("<r:products:each order=\"price ASC\"><r:product:price />,</r:products:each>").as('$3.00,$3.10,$3.20,$3.50,$7.00,$9.00,$4,000.00,')
 		end
 		
 		it "should display in $0.00 format by default" do
@@ -77,27 +77,41 @@ describe 'SimpleProductManager' do
 		it "should use 'where' option correctly" do
 			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:category:title /></r:category:find>').as('Bread')
 		end
+		it "should use 'tag' option correctly" do
+			pages(:home).should render('<r:category:find tag="Retail"><r:category:title /></r:category:find>').as('Pastries')
+		end
+		it "should use 'tag' and 'where' options simultaniously correctly" do
+			pages(:home).should render('<r:category:find tag="Gluten Free" where="title=\'Salads\'"><r:category:title /></r:category:find>').as('Salads')
+		end
 	end
 	
 	describe '<r:categories:each>' do
 		it "should itterate over every category by default" do
-			# We have 2 products - one dot for each one
-			pages(:home).should render('<r:categories:each>.</r:categories:each>').as('..')
+			# We have 3 categories - one dot for each one
+			pages(:home).should render('<r:categories:each>.</r:categories:each>').as('...')
 		end
 		
 		it "should order OK by title" do
-			pages(:home).should render('<r:categories:each order="title DESC"><r:category:title />,</r:categories:each>').as('Pastries,Bread,')
+			pages(:home).should render('<r:categories:each order="title DESC"><r:category:title />,</r:categories:each>').as('Salads,Pastries,Bread,')
 		end
 				
 		it "should restrict OK by title" do
 			pages(:home).should render('<r:categories:each where="title=\'Bread\'"><r:category:title /></r:categories:each>').as('Bread')
+		end
+
+		it "should restrict OK by tags" do
+			pages(:home).should render('<r:categories:each tag="Gluten Free"><r:category:title /><br /></r:categories:each>').as('Pastries<br />Salads<br />')
+		end
+
+		it "should restrict OK by tags with ordering" do
+			pages(:home).should render('<r:categories:each tag="Gluten Free" order="title DESC"><r:category:title /><br /></r:categories:each>').as('Salads<br />Pastries<br />')
 		end
 	end
 	
 	%w(id title description).each do |type|
 		describe "<r:category:#{type}>" do
 			it "should work inside of categories:each" do
-				pages(:home).should render("<r:categories:each><r:category:#{type} />,</r:categories:each>").as(Category.find(:all).collect { |p| p.send(type.to_sym) }.join(',') + ',')
+				pages(:home).should render("<r:categories:each order=\"id\"><r:category:#{type} />,</r:categories:each>").as(Category.find(:all).collect { |p| p.send(type.to_sym) }.join(',') + ',')
 			end
 			
 			it "should work inside of category" do

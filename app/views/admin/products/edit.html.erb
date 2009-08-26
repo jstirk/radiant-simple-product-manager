@@ -1,0 +1,6 @@
+<h1>Edit: <%= @product.title %></h1>
+
+<% form_tag(admin_product_url(@product), :method => :put) do |f| %>
+  <%= render :partial => 'product', :locals => { :f => f, :product => @product } %>
+<% end %>
+

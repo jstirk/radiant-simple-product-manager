@@ -16,10 +16,10 @@
     </tbody>
   </table>
 
-  <% form_tag do %>
+  <% form_tag(admin_category_url(@category), :method => :delete) do %>
     <p class="buttons">
       <input class="button" type="submit" value="Delete Category"/>
       or
-      <%= link_to 'Cancel', product_index_url %>
+      <%= link_to 'Cancel', admin_products_url %>
     </p>
   <%- end -%>

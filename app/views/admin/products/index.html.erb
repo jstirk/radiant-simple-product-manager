@@ -7,6 +7,7 @@
     <thead>
       <tr>
         <th class="category">Category</th>
+        <th class="tags">Tags</th>
         <th class="modify">Modify</th>
       </tr>
     </thead>
@@ -15,17 +16,18 @@
       <% Category.find(:all).each do |category| %>
         <tr class="node level-1">
           <td class="category">
-          	<%= link_to category.title, category_edit_url(:id => category.id) %>
+            <%= link_to category.title, edit_admin_category_url(category) %>
           </td>
+          <td class="tags"><%= category.tag_names %></td>
           <td class="remove">
-            <%= link_to image('remove', :alt => 'Remove Category'), category_remove_url(:id => category.id) %>
+            <%= link_to image('remove', :alt => 'Remove Category'), remove_admin_category_url(category) %>
           </td>
         </tr>
       <% end %>
     </tbody>
 
   </table>
-  <p><%= link_to image("simple_product_manager/new-category", :alt => "New Category"), {:controller => 'admin/category', :action => :new} %></p>
+  <p><%= link_to image("simple_product_manager/new-category", :alt => "New Category"), new_admin_category_url %></p>
 
 <% if Category.count > 0 then %>
   <h1>Products</h1>
@@ -47,13 +49,13 @@
         <tr class="node level-1">
           <td class="product">
             <%# image('products/product') %>
-            <%= link_to product.title, product_edit_url(:id => product.id) %>
+            <%= link_to product.title, edit_admin_product_url(product) %>
           </td>
           <td class="category">
-          	<%= link_to product.category.title, category_edit_url(:id => product.category.id) %>
+          	<%= link_to product.category.title, edit_admin_category_url(product.category) %>
           </td>
           <td class="remove">
-            <%= link_to image('remove', :alt => 'Remove product'), product_remove_url(:id => product.id) %>
+            <%= link_to image('remove', :alt => 'Remove product'), remove_admin_product_url(product) %>
           </td>
         </tr>
       <% end %>
@@ -61,5 +63,5 @@
 
   </table>
 
-  <p><%= link_to image("simple_product_manager/new-product", :alt => "New product"), {:action => :new} %></p>
+  <p><%= link_to image("simple_product_manager/new-product", :alt => "New product"), new_admin_product_url %></p>
 <% end %>
