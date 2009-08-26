@@ -2,6 +2,7 @@ class Category < ActiveRecord::Base
 	has_many :products, :dependent => :destroy
 
 	def tag_names
+		return '' if self.tags.blank?
 		a=self.tags
 		a.split(',').compact.reject { |x| x.blank? }
 	end
@@ -16,10 +17,13 @@ class Category < ActiveRecord::Base
 				list=set.collect { |x| x.strip }
 				# NOTE: Surrounding commas are important!
 				setter=",#{list.join(',')},"
+			when NilClass
+				setter=''
 			else
 				raise ArgumentError, "Don't know how to handle #{new_tags.class.name}"
 		end
 
+		setter='' if setter == ',,'
 		self.tags=(setter)
 	end
 end

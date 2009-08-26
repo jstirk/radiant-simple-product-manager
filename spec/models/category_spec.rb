@@ -16,10 +16,16 @@ describe Category do
 		@category.tags.should == ',Bletch Blomb,'
 		@category.tag_names=[ 'Foo', 'Bar', 'Bletch Blomb' ]
 		@category.tags.should == ',Foo,Bar,Bletch Blomb,'
+		@category.tag_names=''
+		@category.tags.should == ''
+		@category.tag_names=nil
+		@category.tags.should == ''
 	end
 
 	it "should return tags in correct format from tag_names" do
 		@category.tags=',Foo,Bar,Bletch Blomb,'
 		@category.tag_names.should == [ 'Foo', 'Bar', 'Bletch Blomb' ]
+		@category.tags=nil
+		@category.tag_names.should == ''
 	end
 end
