@@ -1,6 +1,8 @@
 class Category < ActiveRecord::Base
 	has_many :products, :dependent => :destroy
 
+	validates_presence_of :title
+
 	def tag_names
 		return '' if self.tags.blank?
 		a=self.tags
