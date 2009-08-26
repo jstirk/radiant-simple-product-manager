@@ -97,7 +97,7 @@ module SimpleProductManagerTag
 		tag.expand
 	end
 	
-	desc "Find a specific category using the SQL conditions specified by 'where' and/or 'tag'"	
+	desc "Find a specific category using the 'tag' given, or the SQL conditions specified by 'where'.'"	
 	tag 'category:find' do |tag|
 		attr = tag.attr.symbolize_keys
 		where=attr[:where]
@@ -115,7 +115,7 @@ module SimpleProductManagerTag
 		tag.expand
 	end
 
-	desc "Iterate over all categories in the system, optionally sorted by the field specified by 'order', or constrained by 'where'."
+	desc "Iterate over all categories in the system, optionally sorted by the field specified by 'order', or constrained by 'where' or 'tag'."
 	tag 'categories:each' do |tag|
 		attr = tag.attr.symbolize_keys
 		order=attr[:order] || 'title ASC'
