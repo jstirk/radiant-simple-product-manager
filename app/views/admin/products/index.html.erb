@@ -40,6 +40,7 @@
       <tr>
         <th class="product">Product</th>
         <th class="category">Category</th>
+        <th class="price">Price</th>
         <th class="modify">Modify</th>
       </tr>
     </thead>
@@ -52,8 +53,9 @@
             <%= link_to product.title, edit_admin_product_url(product) %>
           </td>
           <td class="category">
-          	<%= link_to product.category.title, edit_admin_category_url(product.category) %>
+            <%= link_to product.category.title, edit_admin_category_url(product.category) %>
           </td>
+          <td class="price"><%= number_to_currency(product.price) unless product.price.nil? %></td>
           <td class="remove">
             <%= link_to image('remove', :alt => 'Remove product'), remove_admin_product_url(product) %>
           </td>
