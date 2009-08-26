@@ -6,17 +6,16 @@
     <tbody>
       <tr class="node level-1">
         <td class="product">
-          <%= image('products/product', :alt => 'product-icon') %>
           <%= h @product.title %>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <% form_tag do %>
+  <% form_tag(admin_product_url(@product), :method => :delete) do %>
     <p class="buttons">
       <input class="button" type="submit" value="Delete product"/>
       or
-      <%= link_to 'Cancel', product_index_url %>
+      <%= link_to 'Cancel', admin_products_url %>
     </p>
   <%- end -%>
