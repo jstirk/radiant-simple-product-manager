@@ -7,6 +7,7 @@
     <thead>
       <tr>
         <th class="category">Category</th>
+        <th class="tags">Tags</th>
         <th class="modify">Modify</th>
       </tr>
     </thead>
@@ -15,8 +16,9 @@
       <% Category.find(:all).each do |category| %>
         <tr class="node level-1">
           <td class="category">
-          	<%= link_to category.title, edit_admin_category_url(category) %>
+            <%= link_to category.title, edit_admin_category_url(category) %>
           </td>
+          <td class="tags"><%= category.tag_names %></td>
           <td class="remove">
             <%= link_to image('remove', :alt => 'Remove Category'), remove_admin_category_url(category) %>
           </td>

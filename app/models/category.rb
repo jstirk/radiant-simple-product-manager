@@ -4,7 +4,7 @@ class Category < ActiveRecord::Base
 	def tag_names
 		return '' if self.tags.blank?
 		a=self.tags
-		a.split(',').compact.reject { |x| x.blank? }
+		a.split(',').compact.reject { |x| x.blank? }.join(', ')
 	end
 
 	def tag_names=(new_tags)
