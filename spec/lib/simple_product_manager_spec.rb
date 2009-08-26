@@ -77,6 +77,9 @@ describe 'SimpleProductManager' do
 		it "should use 'where' option correctly" do
 			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:category:title /></r:category:find>').as('Bread')
 		end
+		it "should use 'tag' option correctly" do
+			pages(:home).should render('<r:category:find tag="Wholesale"><r:category:title /></r:category:find>').as('Bread')
+		end
 	end
 	
 	describe '<r:categories:each>' do
