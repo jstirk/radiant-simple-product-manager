@@ -121,8 +121,8 @@ describe 'SimpleProductManager' do
 	end
 
 	describe "<r:subcategories:each>" do
-		it "should itterate over every subcategory category by default" do
-			# We have 3 top-level categories - one dot for each one
+		it "should itterate over every subcategory for the current category" do
+			# We have 3 2nd-level categories - one dot for each one
 			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:subcategories:each>.</r:subcategories:each></r:category:find>').as('...')
 		end
 		
