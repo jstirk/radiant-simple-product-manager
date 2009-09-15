@@ -104,9 +104,11 @@ module SimpleProductManagerTag
 
 		# If tag is specified, we look for a single tag for
 		if attr[:tag] then
-			tag_snippet="tags LIKE \"%,#{attr[:tag]},%\""
+			tag_snippet="tags LIKE '%%,#{attr[:tag]},%%'"
 			where=[where, tag_snippet].compact.join(' AND ')
 		end
+
+		where="(#{where}) AND parent_id IS NULL"
 
 		category=Category.find(:first, :conditions => where)
 		if category then
@@ -123,12 +125,12 @@ module SimpleProductManagerTag
 
 		# If tag is specified, we look for a single tag for
 		if attr[:tag] then
-			tag_snippet="tags LIKE \"%,#{attr[:tag]},%\""
+			tag_snippet="tags LIKE \"%%,#{attr[:tag]},%%\""
 			where=[where, tag_snippet].compact.join(' AND ')
 		end
 
 		result = []
-		Category.find(:all, :conditions => where, :order => order).each do |category|
+		Category.find_all_top_level(:conditions => where, :order => order).each do |category|
 			tag.locals.category = category
 			result << tag.expand
 		end

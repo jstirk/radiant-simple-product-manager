@@ -20,6 +20,14 @@ class ProductsDataset < Dataset::Base
 			c.tag_names=data[:tags]
 			c.save
 		end
+
+		# Create some second level categories
+		Category.create(:title => 'Wholemeal Breads', :parent => Category.find_by_title('Bread'), :tag_names => 'High-Fiber')
+		Category.create(:title => 'Sourdough Breads', :parent => Category.find_by_title('Bread'))
+		Category.create(:title => 'Spelt Breads', :parent => Category.find_by_title('Bread'), :tag_names => 'Gluten Free, High-Fiber')
+
+		# Create some third level categories
+		Category.create(:title => 'Fiber Enriched Breads', :parent => Category.find_by_title('Wholemeal Breads'))
 		
 		# Create our products
 		products.each do |catname, data|

@@ -73,7 +73,7 @@ describe 'SimpleProductManager' do
 		end
 	end
 	
-	describe '<r:category>' do
+	describe '<r:category:find>' do
 		it "should use 'where' option correctly" do
 			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:category:title /></r:category:find>').as('Bread')
 		end
@@ -86,8 +86,8 @@ describe 'SimpleProductManager' do
 	end
 	
 	describe '<r:categories:each>' do
-		it "should itterate over every category by default" do
-			# We have 3 categories - one dot for each one
+		it "should itterate over every top-level category by default" do
+			# We have 3 top-level categories - one dot for each one
 			pages(:home).should render('<r:categories:each>.</r:categories:each>').as('...')
 		end
 		
@@ -111,7 +111,7 @@ describe 'SimpleProductManager' do
 	%w(id title description).each do |type|
 		describe "<r:category:#{type}>" do
 			it "should work inside of categories:each" do
-				pages(:home).should render("<r:categories:each order=\"id\"><r:category:#{type} />,</r:categories:each>").as(Category.find(:all).collect { |p| p.send(type.to_sym) }.join(',') + ',')
+				pages(:home).should render("<r:categories:each order=\"id\"><r:category:#{type} />,</r:categories:each>").as(Category.find_all_top_level.collect { |p| p.send(type.to_sym) }.join(',') + ',')
 			end
 			
 			it "should work inside of category" do
@@ -119,4 +119,40 @@ describe 'SimpleProductManager' do
 			end
 		end
 	end
+
+	describe "<r:subcategories:each>" do
+		it "should itterate over every subcategory category by default" do
+			# We have 3 top-level categories - one dot for each one
+			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:subcategories:each>.</r:subcategories:each></r:category:find>').as('...')
+		end
+		
+		it "should order OK by title" do
+			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:subcategories:each order="title DESC"><r:subcategory:title />,</r:subcategories:each></r:category:find>').as('Wholemeal Breads,Sourdough Breads,Spelt Breads,')
+		end
+				
+		it "should restrict OK by title" do
+			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:subcategories:each where="title=\'Spelt Breads\'"><r:subcategory:title /></r:subcategories:each></r:category:find>').as('Spelt Breads')
+		end
+
+		it "should restrict OK by tags" do
+			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:subcategories:each tag="Gluten Free"><r:subcategory:title /></r:subcategories:each></r:category:find>').as('Spelt Breads')
+		end
+
+		it "should restrict OK by tags with ordering" do
+			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:subcategories:each order="title DESC" tag="High-Fiber"><r:subcategory:title />,</r:subcategories:each></r:category:find>').as('Wholemeal Breads,Spelt Breads,')
+		end
+	end
+
+	%w(id title description).each do |type|
+		describe "<r:subcategory:#{type}>" do
+			it "should work inside of subcategories:each" do
+				pages(:home).should render("<r:category:find where=\"title='Bread'\"><r:subcategories:each order=\"id\"><r:category:#{type} />,</r:subcategories:each></r:category:find>").as(Category.find_by_title('Bread').subcategories.collect { |p| p.send(type.to_sym) }.join(',') + ',')
+			end
+			
+			it "should work inside of category" do
+				pages(:home).should render("<r:category:find where=\"title='Bread'\"><r:category:#{type} /></r:category:find>").as(Category.find_by_title('Bread').send(type.to_sym).to_s)
+			end
+		end
+	end
+
 end

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Category do
 	before(:each) do
-		@category = Category.new
+		@category = Category.new(:title => 'Test')
 	end
 
 	it "should be valid" do
@@ -28,4 +28,44 @@ describe Category do
 		@category.tags=nil
 		@category.tag_names.should == ''
 	end
+
+	it "should handle subcategories" do
+		p=Category.new(:title => 'Parent Category')
+		p.save
+		c1=Category.new(:title => 'Child1', :parent_id => p.id)
+		c2=Category.new(:title => 'Child2', :parent => p)
+		c1.save; c2.save
+
+		p.subcategories.size.should == 2
+		c1.parent.id.should == p.id
+		c2.parent.id.should == p.id
+	end
+
+	it "should respond to find_all_except" do
+		Category.delete_all
+		%w( Test1 Test2 Test3 Test4 ).each do |title|
+			Category.new(:title => title).save
+		end
+		c=Category.find(:first)
+		Category.find_all_except(c).should_not include(c)
+		Category.find_all_except(c).size.should == 3
+	end
+
+	it "should return the category heirachy in to_s" do
+		c1=Category.create(:title => "Test1")
+		c2=Category.create(:title => "Test2", :parent => c1)
+		c3=Category.create(:title => "Test3", :parent => c2)
+		c1.to_s.should == 'Test1'
+		c2.to_s.should == 'Test1 > Test2'
+		c3.to_s.should == 'Test1 > Test2 > Test3'
+	end
+
+	it "should find all top level Categories with no parents" do
+		Category.delete_all
+		c1=Category.create(:title => 'Test1')
+		c2=Category.create(:title => 'Test2', :parent => c1)
+		Category.find_all_top_level.should_not include(c2)
+		Category.find_all_top_level.size.should == 1
+	end
+
 end

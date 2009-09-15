@@ -7,6 +7,10 @@
           <%= text_field "category", "title", :class => 'textbox', :maxlength => 255 %>
         </p>
         <p class="title">
+          <label for="parent_id">Parent</label>
+          <%= select "category", "parent_id", Category.find_all_except(category).collect { |c| [ c.to_s, c.id ] }, :include_blank => true %>
+        </p>
+        <p class="title">
           <label for="tag_names">Tags</label>
           <%= text_field "category", "tag_names", :class => 'textbox', :maxlength => 255 %> (separate with commas)
         </p>

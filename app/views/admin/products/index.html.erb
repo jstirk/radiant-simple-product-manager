@@ -13,16 +13,8 @@
     </thead>
 
     <tbody>
-      <% Category.find(:all).each do |category| %>
-        <tr class="node level-1">
-          <td class="category">
-            <%= link_to category.title, edit_admin_category_url(category) %>
-          </td>
-          <td class="tags"><%= category.tag_names %></td>
-          <td class="remove">
-            <%= link_to image('remove', :alt => 'Remove Category'), remove_admin_category_url(category) %>
-          </td>
-        </tr>
+      <% Category.find_all_top_level.each do |category| %>
+        <%= render :partial => 'category_row', :locals => { :category => category } %>
       <% end %>
     </tbody>
 
@@ -53,7 +45,7 @@
             <%= link_to product.title, edit_admin_product_url(product) %>
           </td>
           <td class="category">
-            <%= link_to product.category.title, edit_admin_category_url(product.category) %>
+            <%= link_to product.category.to_s, edit_admin_category_url(product.category) %>
           </td>
           <td class="price"><%= number_to_currency(product.price) unless product.price.nil? %></td>
           <td class="remove">

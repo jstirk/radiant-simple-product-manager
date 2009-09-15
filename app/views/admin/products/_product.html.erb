@@ -8,7 +8,7 @@
         </p>
         <p class="category title row">
           <label for="product_category_id">Category</label><br />
-          <%= select "product", "category_id", Category.find(:all).collect { |x| [ x.title, x.id ] }, :selected => @product.category_id %>
+          <%= select "product", "category_id", Category.find(:all).collect { |x| [ x.to_s, x.id ] }, :selected => @product.category_id %>
         </p>
         <p class="price title row">
           <label for="product_price">Price</label>

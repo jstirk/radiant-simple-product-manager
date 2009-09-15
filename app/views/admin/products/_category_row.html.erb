@@ -1,0 +1,13 @@
+<% level=1 if level.blank? -%>
+        <tr class="node level-<%= level %>">
+          <td class="category" style="text-indent: <%= (level-1) * 10 %>px">
+            <%= link_to category.title, edit_admin_category_url(category) %>
+          </td>
+          <td class="tags"><%= category.tag_names %></td>
+          <td class="remove">
+            <%= link_to image('remove', :alt => 'Remove Category'), remove_admin_category_url(category) %>
+          </td>
+        </tr>
+<% category.subcategories.each do |subcat| -%>
+  <%= render :partial => 'category_row', :locals => { :category => subcat, :level => (level + 1) } %>
+<% end -%>
