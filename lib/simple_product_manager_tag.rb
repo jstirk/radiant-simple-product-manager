@@ -96,7 +96,7 @@ module SimpleProductManagerTag
 	tag 'category' do |tag|
 		tag.expand
 	end
-	
+
 	desc "Find a specific category using the 'tag' given, or the SQL conditions specified by 'where'.'"	
 	tag 'category:find' do |tag|
 		attr = tag.attr.symbolize_keys
@@ -153,5 +153,51 @@ module SimpleProductManagerTag
 	tag 'category:description' do |tag|
 		category = tag.locals.category
 		html_escape category.description
+	end
+
+	tag 'subcategory' do |tag|
+		tag.expand
+	end
+	
+	tag 'subcategories' do |tag|
+		tag.expand
+	end
+	
+	desc "Iterate over all subcategories for the current category, optionally sorted by the field specified by 'order', or constrained by 'where' or 'tag'."
+	tag 'subcategories:each' do |tag|
+		attr = tag.attr.symbolize_keys
+		order=attr[:order] || 'title ASC'
+		where=attr[:where]
+
+		# If tag is specified, we look for a single tag for
+		if attr[:tag] then
+			tag_snippet="tags LIKE \"%%,#{attr[:tag]},%%\""
+			where=[where, tag_snippet].compact.join(' AND ')
+		end
+
+		result = []
+		tag.locals.category.subcategories.find(:all, :conditions => where, :order => order).each do |subcategory|
+			tag.locals.subcategory = subcategory
+			result << tag.expand
+		end
+		result
+	end
+
+	desc "Renders the ID of the current subcategory loaded by <r:subcategory> or <r:subcategories:each>"
+	tag 'subcategory:id' do |tag|
+		subcategory = tag.locals.subcategory
+		html_escape subcategory.id
+	end
+	
+	desc "Renders the HTML-escaped title of the current subcategory loaded by <r:subcategory> or <r:categories:each>"
+	tag 'subcategory:title' do |tag|
+		subcategory = tag.locals.subcategory
+		html_escape subcategory.title
+	end
+	
+ 	desc "Renders the HTML-escaped description of the current subcategory loaded by <r:subcategory> or <r:categories:each>"
+	tag 'subcategory:description' do |tag|
+		subcategory = tag.locals.subcategory
+		html_escape subcategory.description
 	end
 end

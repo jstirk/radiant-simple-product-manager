@@ -127,7 +127,7 @@ describe 'SimpleProductManager' do
 		end
 		
 		it "should order OK by title" do
-			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:subcategories:each order="title DESC"><r:subcategory:title />,</r:subcategories:each></r:category:find>').as('Wholemeal Breads,Sourdough Breads,Spelt Breads,')
+			pages(:home).should render('<r:category:find where="title=\'Bread\'"><r:subcategories:each order="title DESC"><r:subcategory:title />,</r:subcategories:each></r:category:find>').as('Wholemeal Breads,Spelt Breads,Sourdough Breads,')
 		end
 				
 		it "should restrict OK by title" do
@@ -146,7 +146,7 @@ describe 'SimpleProductManager' do
 	%w(id title description).each do |type|
 		describe "<r:subcategory:#{type}>" do
 			it "should work inside of subcategories:each" do
-				pages(:home).should render("<r:category:find where=\"title='Bread'\"><r:subcategories:each order=\"id\"><r:category:#{type} />,</r:subcategories:each></r:category:find>").as(Category.find_by_title('Bread').subcategories.collect { |p| p.send(type.to_sym) }.join(',') + ',')
+				pages(:home).should render("<r:category:find where=\"title='Bread'\"><r:subcategories:each order=\"id\"><r:subcategory:#{type} />,</r:subcategories:each></r:category:find>").as(Category.find_by_title('Bread').subcategories.collect { |p| p.send(type.to_sym) }.join(',') + ',')
 			end
 			
 			it "should work inside of category" do
