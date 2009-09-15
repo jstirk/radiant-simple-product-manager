@@ -35,6 +35,19 @@ describe 'SimpleProductManager' do
 		it "should restrict OK by price" do
 			pages(:home).should render('<r:products:each where="price > 3.40" order="price DESC"><r:product:title />,</r:products:each>').as('Croissant,Caesar Salad,Green Salad,Jam Tart,')
 		end
+
+		it "should work within category:find" do
+			pages(:home).should render('<r:category:find where="title=\'Pastries\'"><r:products:each order="title ASC"><r:product:title />,</r:products:each></r:category:find>').as('Croissant,Jam Tart,')
+		end
+
+		it "should work within subcategory:find" do
+			c1=Category.create(:title => 'Test Category')
+			c2=Category.create(:title => 'Another Category', :parent => c1)
+			p=Product.create(:title => 'Bar', :category => c2)
+			c2=Category.create(:title => 'Subcategory', :parent => c1)
+			p=Product.create(:title => 'Foo', :category => c2)
+			pages(:home).should render('<r:category:find where="title=\'Test Category\'"><r:subcategories:each where="title=\'Subcategory\'"><r:products:each order="title ASC"><r:product:title /></r:products:each></r:subcategories:each></r:category:find>').as('Foo')
+		end
 	end
 	
 	%w(id title description).each do |type|

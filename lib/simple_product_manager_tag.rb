@@ -29,8 +29,12 @@ module SimpleProductManagerTag
 		order=attr[:order] || 'title ASC'
 		where=attr[:where]
 		result = []
-		if tag.locals.category then
-			prods=tag.locals.category.products.find(:all, :conditions => where, :order => order)
+		if tag.locals.category || tag.locals.subcategory then
+			if tag.locals.subcategory then
+				prods=tag.locals.subcategory.products.find(:all, :conditions => where, :order => order)
+			else
+				prods=tag.locals.category.products.find(:all, :conditions => where, :order => order)
+			end
 		else
 			prods=Product.find(:all, :conditions => where, :order => order)
 		end
