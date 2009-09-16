@@ -12,6 +12,8 @@ class SimpleProductManagerExtension < Radiant::Extension
 			admin.resources :products, :member => { :remove => :get }
 			admin.resources :categories, :member => { :remove => :get }
 		end
+		map.connect 'products/:id', :controller => 'categories', :action => 'show'
+		map.connect 'products/:category_id/:id', :controller => 'products', :action => 'show'
 	end
 	
 	def activate

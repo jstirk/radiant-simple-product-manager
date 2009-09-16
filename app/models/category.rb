@@ -12,6 +12,10 @@ class Category < ActiveRecord::Base
 		o.join(' > ')
 	end
 
+	def to_param
+		"#{self.id}-#{self.title.gsub(/[^A-Za-z\-]/,'-').gsub(/-+/,'-')}"
+	end
+
 	def tag_names
 		return '' if self.tags.blank?
 		a=self.tags

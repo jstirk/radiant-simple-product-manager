@@ -13,13 +13,17 @@ This extension was created to make this process simpler by storing it all in
 one location (the DB) so as that it is easy to reuse the information across
 the site.
 
+== Dependencies
+
+The Share Layouts Extension must also be installed. See :
+http://github.com/radiant/radiant-share-layouts-extension
+
+If you receive errors or warnings about JSON, ensure that the json gem is installed.
+
 == Usage
 
 The extension adds a "Products" page which provides a simple mechanism to add 
 categories and products.
-
-Currently, each Product is as simple as possible - only including a title, a
-description, a price and a URL for a photo.
 
 The categories and products are exposed to the site using the following tags:
 
@@ -31,12 +35,26 @@ The categories and products are exposed to the site using the following tags:
   <r:product:price precision="" unit="" separator="" delimiter="" />
   <r:product:image />
   <r:product:photo_url />
+  <r:product:link>...</r:product:link>
   <r:category:find where="" tag=""> ... </r:category>
   <r:categories:each where="" tag="" order=""> ... </r:categories:each>
   <r:category:id />
   <r:category:title />
   <r:category:description />
+  <r:category:link>...</r:category:link>
   
+== Layouts and Snippets
+
+If you want to use the category and product page functionality, you will need to have two Layouts, and two Snippets.
+
+Category pages will be displayed in the "Category" layout, and render the "category" snippet. In this case, the snippet is already
+loaded in the context of the Category, loaded by <r:category:find>.
+
+Product pages will be displayed in the "Product" layout, and render the "product" snippet. In this case, the snippet is already
+loaded in the context of the Product, loaded by <r:product:find>.
+
+No Category List is implemented, as it's fairly trivial to code your own using <r:category:each> and friends.
+
 == Examples
 
 === Product Listing
@@ -61,8 +79,6 @@ mailer extension. This curently isn't baked into mailer, but my patched
 version is available at:
 http://github.com/jstirk/radiant-mailer-extension/tree/master
 
-
-
   <h2>Order Form</h2>
   <table>
     <tr><th>Product</th><th>Cost</th><th>Quantity</th></tr>
@@ -84,9 +100,12 @@ http://github.com/jstirk/radiant-mailer-extension/tree/master
 == TODO
 * Deperately need some integration tests
 * File upload for Photos
-* Option for "/product/1-Product-Name" style public product pages
 
 == History
+
+  Version 0.4 (18 Sep 2009)
+  Added subcategory support, and subcategory tags
+  Added support for public Category and Product pages
 
   Version 0.3 (26 Aug 2009)
   Added ability to tag Categories

@@ -61,6 +61,21 @@ describe 'SimpleProductManager' do
 			end
 		end
 	end
+
+	describe "<r:product:link>" do
+		it "should work inside of product:find" do
+			p=Product.find(:first)
+			pages(:home).should render("<r:product:find where=\"id=#{p.id}\"><r:product:link><r:product:title /></r:product:link></r:product:find>").as("<a href=\"/products/#{p.category.to_param}/#{p.to_param}\">#{p.title}</a>")
+		end
+		it "should default to the title if no content" do
+			p=Product.find(:first)
+			pages(:home).should render("<r:product:find where=\"id=#{p.id}\"><r:product:link /></r:product:find>").as("<a href=\"/products/#{p.category.to_param}/#{p.to_param}\">#{p.title}</a>")
+		end
+		it "should work inside of products:each" do
+			p=Product.find(:first)
+			pages(:home).should render("<r:products:each where=\"id=#{p.id}\"><r:product:link><r:product:title /></r:product:link></r:products:each>").as("<a href=\"/products/#{p.category.to_param}/#{p.to_param}\">#{p.title}</a>")
+		end
+	end
 	
 	describe '<r:product:price>' do
 		it "should work inside of products:each" do
@@ -149,6 +164,21 @@ describe 'SimpleProductManager' do
 		end
 	end
 
+	describe "<r:category:link>" do
+		it "should work inside of category:find" do
+			c=Category.find(:first)
+			pages(:home).should render("<r:category:find where=\"id=#{c.id}\"><r:category:link><r:category:title /></r:category:link></r:category:find>").as("<a href=\"/products/#{c.to_param}\">#{c.title}</a>")
+		end
+		it "should default to the title if no content" do
+			c=Category.find(:first)
+			pages(:home).should render("<r:category:find where=\"id=#{c.id}\"><r:category:link /></r:category:find>").as("<a href=\"/products/#{c.to_param}\">#{c.title}</a>")
+		end
+		it "should work inside of categories:each" do
+			c=Category.find(:first)
+			pages(:home).should render("<r:categories:each where=\"id=#{c.id}\"><r:category:link><r:category:title /></r:category:link></r:categories:each>").as("<a href=\"/products/#{c.to_param}\">#{c.title}</a>")
+		end
+	end
+	
 	describe "<r:category:field>" do
 		it "should fetch existing data OK" do
 			c=Category.find(:first)
@@ -198,7 +228,12 @@ describe 'SimpleProductManager' do
 		end
 	end
 
-	describe "<r:subcategory:field>" do
+	describe "<r:subcategory:link>" do
+		it "should work inside of subcategory:find"
+		it "should work inside of categories:each"
+	end
+	
+	describe "<r:subsubcategory:field>" do
 		it "should fetch existing data OK"
 		it "should return nothing on missing data"
 	end

@@ -50,6 +50,13 @@ module SimpleProductManagerTag
 		product = tag.locals.product
 		html_escape product.id
 	end
+
+	desc "Renders a link to the current product loaded by <r:product> or <r:products:each>"
+	tag 'product:link' do |tag|
+		text=tag.expand
+		text=tag.locals.product.title if text.blank?
+		"<a href=\"/products/#{tag.locals.product.category.to_param}/#{tag.locals.product.to_param}\">#{text}</a>"
+	end
 	
  	desc "Renders the HTML-escaped title of the current product loaded by <r:product> or <r:products:each>"
 	tag 'product:title' do |tag|
@@ -154,6 +161,13 @@ module SimpleProductManagerTag
 		html_escape category.id
 	end
 	
+	desc "Renders a link to the current category loaded by <r:category> or <r:categories:each>"
+	tag 'category:link' do |tag|
+		text=tag.expand
+		text=tag.locals.category.title if text.blank?
+		"<a href=\"/products/#{tag.locals.category.to_param}\">#{text}</a>"
+	end
+	
 	desc "Renders the HTML-escaped title of the current category loaded by <r:category> or <r:categories:each>"
 	tag 'category:title' do |tag|
 		category = tag.locals.category
@@ -205,6 +219,10 @@ module SimpleProductManagerTag
 	tag 'subcategory:id' do |tag|
 		subcategory = tag.locals.subcategory
 		html_escape subcategory.id
+	end
+	
+	desc "Renders a link to the current subcategory loaded by <r:subcategory> or <r:subcategories:each>"
+	tag 'subcategory:link' do |tag|
 	end
 	
 	desc "Renders the HTML-escaped title of the current subcategory loaded by <r:subcategory> or <r:categories:each>"
