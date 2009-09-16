@@ -92,6 +92,13 @@ module SimpleProductManagerTag
 		product = tag.locals.product
 		product.photo
 	end
+
+	desc "Renders the requested field from the product loaded by <r:product:find> or <r:products:each>. Requires 'name' is provided."
+	tag 'product:field' do |tag|
+		attr = tag.attr.symbolize_keys
+		product = tag.locals.product
+		product.json_field_get(attr[:name])
+	end
 	
 	tag 'categories' do |tag|
 		tag.expand
@@ -159,6 +166,13 @@ module SimpleProductManagerTag
 		html_escape category.description
 	end
 
+	desc "Renders the requested field from the category loaded by <r:category:find> or <r:category:each>. Requires 'name' is provided."
+	tag 'category:field' do |tag|
+		attr = tag.attr.symbolize_keys
+		category = tag.locals.category
+		category.json_field_get(attr[:name])
+	end
+	
 	tag 'subcategory' do |tag|
 		tag.expand
 	end

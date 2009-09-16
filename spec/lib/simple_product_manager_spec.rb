@@ -85,6 +85,22 @@ describe 'SimpleProductManager' do
 			pages(:home).should render("<r:product:find where=\"title='White'\"><r:product:photo_url /></r:product:find>").as('White.png')
 		end
 	end
+
+	describe "<r:product:field>" do
+		it "should fetch existing data OK" do
+			p=Product.create(:title => "Test", :category => Category.find(:first))
+			p.json_field_set(:fieldname, "Foo")
+			p.save!
+			pages(:home).should render("<r:product:find where=\"title='Test'\"><r:product:field name=\"fieldname\" /></r:product:find>").as("Foo")
+		end
+
+		it "should return nothing on missing data" do
+			p=Product.create(:title => "Test", :category => Category.find(:first))
+			p.json_field_set(:fieldname, "Foo")
+			p.save!
+			pages(:home).should render("<r:product:find where=\"title='Test'\">-<r:product:field name=\"missing_field\" />-</r:product:find>").as("--")
+		end
+	end
 	
 	describe '<r:category:find>' do
 		it "should use 'where' option correctly" do
@@ -133,6 +149,20 @@ describe 'SimpleProductManager' do
 		end
 	end
 
+	describe "<r:category:field>" do
+		it "should fetch existing data OK" do
+			c=Category.find(:first)
+			c.json_field_set(:fieldname, "Foo")
+			c.save!
+			pages(:home).should render("<r:category:find where=\"id='#{c.id}'\"><r:category:field name=\"fieldname\" /></r:category:find>").as("Foo")
+		end
+
+		it "should return nothing on missing data" do
+			c=Category.create(:title => 'Test')
+			pages(:home).should render("<r:category:find where=\"id='#{c.id}'\">-<r:category:field name=\"fieldname\" />-</r:category:find>").as("--")
+		end
+	end
+	
 	describe "<r:subcategories:each>" do
 		it "should itterate over every subcategory for the current category" do
 			# We have 3 2nd-level categories - one dot for each one
@@ -168,4 +198,9 @@ describe 'SimpleProductManager' do
 		end
 	end
 
+	describe "<r:subcategory:field>" do
+		it "should fetch existing data OK"
+		it "should return nothing on missing data"
+	end
+	
 end
