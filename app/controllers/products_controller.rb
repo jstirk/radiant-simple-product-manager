@@ -4,5 +4,7 @@ class ProductsController < ActionController::Base
 	def show
 		@product=Product.find(params[:id])
 		@title = @product.title
+		
+		# TODO: Allow these layouts to be set in the database
 	end
 end
