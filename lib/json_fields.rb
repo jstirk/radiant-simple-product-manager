@@ -47,6 +47,9 @@
 #   report changes to the JSON fields.
 #
 ######
+
+require 'json'
+
 module JsonFields
 	def self.included(base)
 		base.extend(ClassMethods)
@@ -64,13 +67,6 @@ module JsonFields
 		end
 
 		def has_json_field(*fields)
-			# Set the default field name
-			if !respond_to?(:json_backed_field_name) then
-				define_method :json_backed_field_name do
-					:json_field
-				end
-			end
-
 			if fields.is_a? Symbol then
 				fields=[fields]
 			end
@@ -86,6 +82,11 @@ module JsonFields
 	end
 
 	module InstanceMethods
+		# Default field name
+		def json_backed_field_name
+			:json_field
+		end
+
 		def json_field_get(field)
 			load_json_data
 			# NOTE: to_json forces symbols to string! So, convert here so as that
@@ -104,7 +105,7 @@ module JsonFields
 		def load_json_data
 			if !respond_to?(:json_backed_field_name) then
 				# We don't know which field to use
-				return nil
+				raise 'Not a JSON-backed field'
 			else
 				if @json_data then
 					# The data is already loaded - use the version in memory
