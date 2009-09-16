@@ -126,8 +126,6 @@ module SimpleProductManagerTag
 			where=[where, tag_snippet].compact.join(' AND ')
 		end
 
-		where="(#{where}) AND parent_id IS NULL"
-
 		category=Category.find(:first, :conditions => where)
 		if category then
 			tag.locals.category = category
@@ -148,7 +146,7 @@ module SimpleProductManagerTag
 		end
 
 		result = []
-		Category.find_all_top_level(:conditions => where, :order => order).each do |category|
+		Category.find(:conditions => where, :order => order).each do |category|
 			tag.locals.category = category
 			result << tag.expand
 		end
