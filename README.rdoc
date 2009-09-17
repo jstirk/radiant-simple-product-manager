@@ -104,8 +104,9 @@ No Category List is implemented, as it's fairly trivial to code your own using <
 == Product and Category Pages (and URLs)
 
 By default, the extension adds routes for each Category and Product like :
-/products/10-Category-Name
-/products/10-Category-Name/30-Product-Name
+
+  /products/10-Category-Name
+  /products/10-Category-Name/30-Product-Name
 
 And these are provided by <r:category:link> and <r:product:link> respectively.
 
