@@ -56,11 +56,11 @@ The categories and products are exposed to the site using the following tags:
 === Product Tags
 
   Product tags can either be used stand-alone to search all products in the 
-	database, or within a <r:category:find> or 	<r:categories:each> tag to search
-	only within that Category's products.
+  database, or within a <r:category:find> or 	<r:categories:each> tag to search
+  only within that Category's products.
 
-	In this case, only Products directly owned by the current Category are shown -
-	they do not recurse down into sub-Categories.
+  In this case, only Products directly owned by the current Category are shown -
+  they do not recurse down into sub-Categories.
 
   <r:product:find where=""> ... </r:product:find>
   <r:products:each where="" order=""> ... </r:products:each>
