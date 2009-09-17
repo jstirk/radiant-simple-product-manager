@@ -22,6 +22,12 @@
           <label for="product_description">Description</label><br />
           <%= text_area "product", "description", :class => 'textarea', :maxlength => 255 %>
         </p>
+      <% custom_fields(:product).each do |field| -%>
+        <p class="custom_field row title">
+          <label for="<%= field %>"><%= humanize field %></label><br />
+          <%= text_field_tag "product[custom][#{field}]", @product.json_field_get(field), :class => 'textbox', :maxlength => 255 %>
+        </p>
+      <% end %>
          <span class="clear">&nbsp;</span>
       </div>
     </div>

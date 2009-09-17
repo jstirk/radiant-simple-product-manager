@@ -42,6 +42,12 @@ class Category < ActiveRecord::Base
 		self.tags=(setter)
 	end
 
+	def custom=(values)
+		values.each do |key, value|
+			self.json_field_set(key, value)
+		end
+	end
+
 	def self.find_all_except(c, options={})
 		options[:conditions]=[ 'id != ?', c.id ] unless (c.blank? || c.new_record? )
 		self.find(:all, options)

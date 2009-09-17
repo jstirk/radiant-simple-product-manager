@@ -1,10 +1,12 @@
 = Simple Product Manager
 
-A lightweight extension providing a mechanism to handle products and
+A RadiantCMS extension providing a mechanism to handle products and
 categories that can then be used across the rest of the RadiantCMS site.
 
 Also provides Category and Product pages for each of the items listed,
 and these pages can be prepared using existing Layouts and Snippets.
+
+It was once very simple, now it does a little bit more...
 
 == Purpose
 
@@ -15,6 +17,13 @@ maintaining linked Ordering and Product List pages.
 This extension was created to make this process simpler by storing it all in
 one location (the DB) so as that it is easy to reuse the information across
 the site.
+
+It handles nested categories, although these are a tad difficult to work with
+in the layouts.
+
+== Installation
+
+TODO
 
 == Dependencies
 
@@ -41,12 +50,15 @@ The categories and products are exposed to the site using the following tags:
   <r:product:price precision="" unit="" separator="" delimiter="" />
   <r:product:image />
   <r:product:photo_url />
+  <r:product:field name="" />
   <r:product:link>...</r:product:link>
+
   <r:category:find where="" tag=""> ... </r:category>
   <r:categories:each where="" tag="" order=""> ... </r:categories:each>
   <r:category:id />
   <r:category:title />
   <r:category:description />
+  <r:category:field name="" />
   <r:category:link>...</r:category:link>
   
 == Layouts and Snippets
@@ -73,6 +85,22 @@ And these are provided by <r:category:link> and <r:product:link> respectively.
 
 However, the /products URL is NOT handled - this allows you to place a generic
 product listing by creating a standard Radiant Page with a slug of /products
+
+== Custom Fields
+
+Both Categories and Products can be extended to include custom fields.
+
+These custom fields must be defined using the Settings tab, and are called "Product fields" and "Category fields".
+
+These values must be a list of field names (letters only), separated by commas. (eg. "leadtime,weight"), and once they are saved
+they will be visible on the relevant form.
+
+The data can then be accessed within the pages using <r:product:field name=""> and <r:category:field name=""> tags.
+
+For example:
+  <r:categories:each>
+    <p><r:category:title />: Average lead time required is <r:category:field name="leadtime" /></p>
+  </r:categories:each>
 
 == Examples
 
@@ -126,6 +154,7 @@ http://github.com/jstirk/radiant-mailer-extension/tree/master
   Version 0.4 (18 Sep 2009)
   Added subcategory support, and subcategory tags
   Added support for public Category and Product pages
+	Added custom field support
 
   Version 0.3 (26 Aug 2009)
   Added ability to tag Categories
@@ -137,3 +166,5 @@ http://github.com/jstirk/radiant-mailer-extension/tree/master
   Original version by Jason Stirk - http://griffin.oobleyboo.com/
   Contact: jstirk@gmail.com
 
+== Thanks
+Thanks to John Reilly, Justin Grammens who did most of the work to get the original extension working under Radiant-0.7.1 and 0.8.0.
