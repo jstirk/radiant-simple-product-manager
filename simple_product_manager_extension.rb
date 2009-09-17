@@ -12,7 +12,7 @@ class SimpleProductManagerExtension < Radiant::Extension
 			admin.resources :products, :member => { :remove => :get }
 			admin.resources :categories, :member => { :remove => :get }
 		end
-		map.connect 'products/:id', :controller => 'categories', :action => 'show'
+		map.connect 'products/:id', :controller => 'categories', :action => 'show', :id => /\d+-[A-Za-z\-]+/
 		map.connect 'products/:category_id/:id', :controller => 'products', :action => 'show'
 	end
 	
@@ -22,6 +22,12 @@ class SimpleProductManagerExtension < Radiant::Extension
 
 		# Enable our JSON-backed fields
 		ActiveRecord::Base.send :include, JsonFields
+
+		# If our RadiantConfig settings are blank, set them up now
+		Radiant::Config['simple_product_manager.product_fields'] ||= ''
+		Radiant::Config['simple_product_manager.category_fields'] ||= ''
+		Radiant::Config['simple_product_manager.product_layout'] ||= 'Product'
+		Radiant::Config['simple_product_manager.category_layout'] ||= 'Category'
 	end
 	
 	def deactivate

@@ -5,6 +5,6 @@ class ProductsController < ActionController::Base
 		@product=Product.find(params[:id])
 		@title = @product.title
 		
-		# TODO: Allow these layouts to be set in the database
+		@radiant_layout=Radiant::Config['simple_product_manager.product_layout']
 	end
 end

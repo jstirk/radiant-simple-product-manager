@@ -5,6 +5,6 @@ class CategoriesController < ActionController::Base
 		@category=Category.find(params[:id])
 		@title = @category.title
 
-		# TODO: Allow these layouts to be set in the database
+		@radiant_layout=Radiant::Config['simple_product_manager.category_layout']
 	end
 end
