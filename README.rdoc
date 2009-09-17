@@ -55,12 +55,12 @@ The categories and products are exposed to the site using the following tags:
 
 === Product Tags
 
-  Product tags can either be used stand-alone to search all products in the 
-  database, or within a <r:category:find> or 	<r:categories:each> tag to search
-  only within that Category's products.
+Product tags can either be used stand-alone to search all products in the 
+database, or within a <r:category:find> or 	<r:categories:each> tag to search
+only within that Category's products.
 
-  In this case, only Products directly owned by the current Category are shown -
-  they do not recurse down into sub-Categories.
+In this case, only Products directly owned by the current Category are shown -
+they do not recurse down into sub-Categories.
 
   <r:product:find where=""> ... </r:product:find>
   <r:products:each where="" order=""> ... </r:products:each>
@@ -75,9 +75,9 @@ The categories and products are exposed to the site using the following tags:
 
 === Subcategory Tags
 
-  Subcategory tags are only valid within the <r:category:find> or <r:categories:each>.
-  They will restrict their search to include only Categories which are direct descendants of
-  the currently selected Category.
+Subcategory tags are only valid within the <r:category:find> or <r:categories:each>.
+They will restrict their search to include only Categories which are direct descendants of
+the currently selected Category.
 
   <r:subcategory:find where="" tag=""> ... </r:subcategory:find>
   <r:subcategories:each where="" tag="" order=""> ... </r:subcategories:each>
@@ -91,17 +91,17 @@ The categories and products are exposed to the site using the following tags:
 
 If you want to use the category and product page functionality, you will need to have two Layouts, and two Snippets.
 
-Category pages will be displayed in the "Category" layout by default, but this can be chaned by the "simple_product_manager.category_layout" setting.
+Category pages will be displayed in the "Category" layout by default, but this can be changed by the "simple_product_manager.category_layout" setting.
 
-Within this page will be rendered the "category" snippet. The snippet is already loaded in the context of the Category, loaded by <r:category:find>.
+Within this page will be rendered the "category" snippet. The snippet will be rendered in the context of the Category, loaded by <r:category:find>.
 
-Product pages will be displayed in the "Product" layout by default, but this can be chaned by the "simple_product_manager.product_layout" setting.
+Product pages will be displayed in the "Product" layout by default, but this can be changed by the "simple_product_manager.product_layout" setting.
 
-Within this page will be rendered the "product" snippet. The snippet is already loaded in the context of the Product, loaded by <r:product:find>.
+Within this page will be rendered the "product" snippet. The snippet will be rendered in the context of the Product, loaded by <r:product:find>.
 
 No Category List is implemented, as it's fairly trivial to code your own using <r:category:each> and friends.
 
-== Product and Category Pages
+== Product and Category Pages (and URLs)
 
 By default, the extension adds routes for each Category and Product like :
 /products/10-Category-Name
@@ -132,13 +132,17 @@ For example:
 
 === Product Listing
 
+A simple example for listing Categories and their products.
+
+NOTE: This example assumes no subcategories 
+
   <h2>Product Listing</h2>
   <r:categories:each order="title ASC">
     <div class="category">
       <h3><r:category:title /></h3>
       <r:products:each order="price ASC">
         <div class="product">
-          <h4><r:product:title /> (<r:product:price precision="0" />)</h4>
+          <h4><r:product:link /> (<r:product:price precision="0" />)</h4>
           <p><r:product:image /><r:product:description /></p>
         </div>
       </r:products:each>
@@ -146,11 +150,6 @@ For example:
   </r:categories:each>
 
 === Order Form (for mailer extension)
-
-NOTE: The following uses an array of variables that need to be parsed by the
-mailer extension. This curently isn't baked into mailer, but my patched
-version is available at:
-http://github.com/jstirk/radiant-mailer-extension/tree/master
 
   <h2>Order Form</h2>
   <table>
@@ -180,7 +179,7 @@ http://github.com/jstirk/radiant-mailer-extension/tree/master
   Version 0.4 (18 Sep 2009)
   Added subcategory support, and subcategory tags
   Added support for public Category and Product pages
-	Added custom field support
+  Added custom field support
 
   Version 0.3 (26 Aug 2009)
   Added ability to tag Categories
