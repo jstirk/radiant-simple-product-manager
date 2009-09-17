@@ -146,7 +146,7 @@ module SimpleProductManagerTag
 		end
 
 		result = []
-		Category.find(:conditions => where, :order => order).each do |category|
+		Category.find_all_top_level(:conditions => where, :order => order).each do |category|
 			tag.locals.category = category
 			result << tag.expand
 		end
@@ -178,7 +178,7 @@ module SimpleProductManagerTag
 		html_escape category.description
 	end
 
-	desc "Renders the requested field from the category loaded by <r:category:find> or <r:category:each>. Requires 'name' is provided."
+	desc "Renders the requested field from the category loaded by <r:category:find> or <r:categories:each>. Requires 'name' is provided."
 	tag 'category:field' do |tag|
 		attr = tag.attr.symbolize_keys
 		category = tag.locals.category
@@ -223,13 +223,13 @@ module SimpleProductManagerTag
 	tag 'subcategory:link' do |tag|
 	end
 	
-	desc "Renders the HTML-escaped title of the current subcategory loaded by <r:subcategory> or <r:categories:each>"
+	desc "Renders the HTML-escaped title of the current subcategory loaded by <r:subcategory> or <r:subcategories:each>"
 	tag 'subcategory:title' do |tag|
 		subcategory = tag.locals.subcategory
 		html_escape subcategory.title
 	end
 	
- 	desc "Renders the HTML-escaped description of the current subcategory loaded by <r:subcategory> or <r:categories:each>"
+ 	desc "Renders the HTML-escaped description of the current subcategory loaded by <r:subcategory> or <r:subcategories:each>"
 	tag 'subcategory:description' do |tag|
 		subcategory = tag.locals.subcategory
 		html_escape subcategory.description

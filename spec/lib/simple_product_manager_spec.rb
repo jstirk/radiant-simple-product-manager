@@ -237,5 +237,21 @@ describe 'SimpleProductManager' do
 		it "should fetch existing data OK"
 		it "should return nothing on missing data"
 	end
+
+	describe "complex test" do
+		it "should handle a simple list of categories" do
+			source='<r:categories:each order="title ASC"><r:category:title />:<r:subcategories:each order="title ASC"><r:subcategory:title />,</r:subcategories:each>|</r:categories:each>'
+			results=''
+			Category.find_all_top_level(:order => "title ASC").each do |cat|
+				results << "#{cat.title}:"
+				cat.subcategories.find(:all, :order => 'title ASC').each do |subcat|
+					results << "#{subcat.title},"
+				end
+				results << "|"
+			end
+
+			pages(:home).should render(source).as(results)
+		end
+	end
 	
 end
