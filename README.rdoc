@@ -40,9 +40,29 @@ If you receive errors or warnings about JSON, ensure that the json gem is instal
 The extension adds a "Products" page which provides a simple mechanism to add 
 categories and products.
 
+== Tags
 The categories and products are exposed to the site using the following tags:
 
-  <r:product:find where=""> ... </r:product>
+=== Category Tags
+
+  <r:category:find where="" tag=""> ... </r:category:find>
+  <r:categories:each where="" tag="" order=""> ... </r:categories:each>
+  <r:category:id />
+  <r:category:title />
+  <r:category:description />
+  <r:category:field name="" />
+  <r:category:link>...</r:category:link>
+
+=== Product Tags
+
+  Product tags can either be used stand-alone to search all products in the 
+	database, or within a <r:category:find> or 	<r:categories:each> tag to search
+	only within that Category's products.
+
+	In this case, only Products directly owned by the current Category are shown -
+	they do not recurse down into sub-Categories.
+
+  <r:product:find where=""> ... </r:product:find>
   <r:products:each where="" order=""> ... </r:products:each>
   <r:product:id />
   <r:product:title />
@@ -53,13 +73,19 @@ The categories and products are exposed to the site using the following tags:
   <r:product:field name="" />
   <r:product:link>...</r:product:link>
 
-  <r:category:find where="" tag=""> ... </r:category>
-  <r:categories:each where="" tag="" order=""> ... </r:categories:each>
-  <r:category:id />
-  <r:category:title />
-  <r:category:description />
-  <r:category:field name="" />
-  <r:category:link>...</r:category:link>
+=== Subcategory Tags
+
+  Subcategory tags are only valid within the <r:category:find> or <r:categories:each>.
+  They will restrict their search to include only Categories which are direct descendants of
+  the currently selected Category.
+
+  <r:subcategory:find where="" tag=""> ... </r:subcategory:find>
+  <r:subcategories:each where="" tag="" order=""> ... </r:subcategories:each>
+  <r:subcategory:id />
+  <r:subcategory:title />
+  <r:subcategory:description />
+  <r:subcategory:field name="" />
+  <r:subcategory:link>...</r:subcategory:link>
   
 == Layouts and Snippets
 

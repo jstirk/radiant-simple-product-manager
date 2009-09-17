@@ -129,8 +129,10 @@ module SimpleProductManagerTag
 		category=Category.find(:first, :conditions => where)
 		if category then
 			tag.locals.category = category
+			tag.expand
+		else
+			"<b>Can't find Category</b>"
 		end
-		tag.expand
 	end
 
 	desc "Iterate over all categories in the system, optionally sorted by the field specified by 'order', or constrained by 'where' or 'tag'."
@@ -193,6 +195,26 @@ module SimpleProductManagerTag
 		tag.expand
 	end
 	
+	desc "Find a specific subcategory using the 'tag' given, or the SQL conditions specified by 'where'.'"	
+	tag 'subcategory:find' do |tag|
+		attr = tag.attr.symbolize_keys
+		where=attr[:where]
+
+		# If tag is specified, we look for a single tag for
+		if attr[:tag] then
+			tag_snippet="tags LIKE '%%,#{attr[:tag]},%%'"
+			where=[where, tag_snippet].compact.join(' AND ')
+		end
+
+		subcategory=tag.locals.category.subcategories.find(:first, :conditions => where)
+		if subcategory then
+			tag.locals.subcategory = subcategory
+			tag.expand
+		else
+			"<b>Can't find Sub-Category</b>"
+		end
+	end
+
 	desc "Iterate over all subcategories for the current category, optionally sorted by the field specified by 'order', or constrained by 'where' or 'tag'."
 	tag 'subcategories:each' do |tag|
 		attr = tag.attr.symbolize_keys
@@ -210,7 +232,7 @@ module SimpleProductManagerTag
 			tag.locals.subcategory = subcategory
 			result << tag.expand
 		end
-		result
+		result.join('')
 	end
 
 	desc "Renders the ID of the current subcategory loaded by <r:subcategory> or <r:subcategories:each>"
@@ -221,6 +243,9 @@ module SimpleProductManagerTag
 	
 	desc "Renders a link to the current subcategory loaded by <r:subcategory> or <r:subcategories:each>"
 	tag 'subcategory:link' do |tag|
+		text=tag.expand
+		text=tag.locals.subcategory.title if text.blank?
+		"<a href=\"/products/#{tag.locals.subcategory.to_param}\">#{text}</a>"
 	end
 	
 	desc "Renders the HTML-escaped title of the current subcategory loaded by <r:subcategory> or <r:subcategories:each>"
@@ -233,5 +258,12 @@ module SimpleProductManagerTag
 	tag 'subcategory:description' do |tag|
 		subcategory = tag.locals.subcategory
 		html_escape subcategory.description
+	end
+
+	desc "Renders the requested field from the subcategory loaded by <r:subcategory:find> or <r:subcategories:each>. Requires 'name' is provided."
+	tag 'subcategory:field' do |tag|
+		attr = tag.attr.symbolize_keys
+		subcategory = tag.locals.subcategory
+		subcategory.json_field_get(attr[:name])
 	end
 end

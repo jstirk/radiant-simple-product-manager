@@ -229,13 +229,37 @@ describe 'SimpleProductManager' do
 	end
 
 	describe "<r:subcategory:link>" do
-		it "should work inside of subcategory:find"
-		it "should work inside of categories:each"
+		before do
+			@c1=Category.create!(:title => 'Foo')
+			@c2=Category.create!(:title => 'Bar', :parent => @c1)
+		end
+
+		it "should work inside of subcategory:find" do
+			pages(:home).should render("<r:category:find where=\"id=#{@c1.id}\"><r:subcategory:find where=\"id=#{@c2.id}\"><r:subcategory:link><r:subcategory:title /></r:subcategory:link></r:subcategory:find></r:category:find>").as("<a href=\"/products/#{@c2.to_param}\">#{@c2.title}</a>")
+		end
+		it "should default to the title if no content" do
+			pages(:home).should render("<r:category:find where=\"id=#{@c1.id}\"><r:subcategory:find where=\"id=#{@c2.id}\"><r:subcategory:link /></r:subcategory:find></r:category:find>").as("<a href=\"/products/#{@c2.to_param}\">#{@c2.title}</a>")
+		end
+		it "should work inside of subcategories:each" do
+			pages(:home).should render("<r:category:find where=\"id=#{@c1.id}\">.<r:subcategories:each>-<r:subcategory:link />-</r:subcategories:each>.</r:category:find>").as(".-<a href=\"/products/#{@c2.to_param}\">#{@c2.title}</a>-.")
+		end
 	end
 	
 	describe "<r:subsubcategory:field>" do
-		it "should fetch existing data OK"
-		it "should return nothing on missing data"
+		before do
+			@c1=Category.create!(:title => 'Foo')
+			@c2=Category.create(:title => 'Bar', :parent => @c1)
+		end
+
+		it "should fetch existing data OK" do
+			@c2.json_field_set(:fieldname, "Bletch")
+			@c2.save!
+			pages(:home).should render("<r:category:find where=\"id='#{@c1.id}'\"><r:subcategories:each>-<r:subcategory:field name=\"fieldname\" />-</r:subcategories:each></r:category:find>").as("-Bletch-")
+		end
+
+		it "should return nothing on missing data" do
+			pages(:home).should render("<r:category:find where=\"id='#{@c1.id}'\"><r:subcategories:each>-<r:subcategory:field name=\"fieldname\" />-</r:subcategories:each></r:category:find>").as("--")
+		end
 	end
 
 	describe "complex test" do
