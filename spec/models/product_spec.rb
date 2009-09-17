@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Product do
   before(:each) do
-    @product = Product.new(:title => 'Test')
+    @product = Product.new(:title => 'Test', :category => Category.find(:first))
   end
 
   it "should be valid" do
