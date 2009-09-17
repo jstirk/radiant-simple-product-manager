@@ -3,6 +3,9 @@
 A lightweight extension providing a mechanism to handle products and
 categories that can then be used across the rest of the RadiantCMS site.
 
+Also provides Category and Product pages for each of the items listed,
+and these pages can be prepared using existing Layouts and Snippets.
+
 == Purpose
 
 Although simple product/category systems can be created using child pages and
@@ -15,8 +18,11 @@ the site.
 
 == Dependencies
 
-The Share Layouts Extension must also be installed. See :
+The Share Layouts Extension must be installed. See :
 http://github.com/radiant/radiant-share-layouts-extension
+
+For full configuration, you will also require the Settings extension. See :
+http://github.com/Squeegy/radiant-settings
 
 If you receive errors or warnings about JSON, ensure that the json gem is installed.
 
@@ -47,13 +53,26 @@ The categories and products are exposed to the site using the following tags:
 
 If you want to use the category and product page functionality, you will need to have two Layouts, and two Snippets.
 
-Category pages will be displayed in the "Category" layout, and render the "category" snippet. In this case, the snippet is already
-loaded in the context of the Category, loaded by <r:category:find>.
+Category pages will be displayed in the "Category" layout by default, but this can be chaned by the "simple_product_manager.category_layout" setting.
 
-Product pages will be displayed in the "Product" layout, and render the "product" snippet. In this case, the snippet is already
-loaded in the context of the Product, loaded by <r:product:find>.
+Within this page will be rendered the "category" snippet. The snippet is already loaded in the context of the Category, loaded by <r:category:find>.
+
+Product pages will be displayed in the "Product" layout by default, but this can be chaned by the "simple_product_manager.product_layout" setting.
+
+Within this page will be rendered the "product" snippet. The snippet is already loaded in the context of the Product, loaded by <r:product:find>.
 
 No Category List is implemented, as it's fairly trivial to code your own using <r:category:each> and friends.
+
+== Product and Category Pages
+
+By default, the extension adds routes for each Category and Product like :
+/products/10-Category-Name
+/products/10-Category-Name/30-Product-Name
+
+And these are provided by <r:category:link> and <r:product:link> respectively.
+
+However, the /products URL is NOT handled - this allows you to place a generic
+product listing by creating a standard Radiant Page with a slug of /products
 
 == Examples
 
@@ -100,6 +119,7 @@ http://github.com/jstirk/radiant-mailer-extension/tree/master
 == TODO
 * Deperately need some integration tests
 * File upload for Photos
+* <r:product:url> and <r:category:url> tags
 
 == History
 
