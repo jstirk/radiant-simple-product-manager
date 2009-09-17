@@ -1,9 +1,7 @@
-# Uncomment this if you reference any of your controllers in activate
-# require_dependency 'application'
 require 'json_fields'
 
 class SimpleProductManagerExtension < Radiant::Extension
-	version "0.1"
+	version "0.4"
 	description "Manages Products and Product Categories for use across the site."
 	url "http://github.com/jstirk/radiant-simple-product-manager/tree/master"
 	
