@@ -18,6 +18,14 @@
           <label for="category_description">Description</label><br />
           <%= text_area "category", "description", :class => 'textarea', :maxlength => 255 %>
         </p>
+        <p class="custom_layout row title">
+          <label for="category_custom_layout">Custom Layout</label><br />
+          <%= text_field "category", "custom_layout", :class => 'textbox', :maxlength => 255 %> (blank to inherit)
+        </p>
+        <p class="custom_product_layout row title">
+          <label for="category_custom_product_layout">Custom Layout for Products</label><br />
+          <%= text_field "category", "custom_product_layout", :class => 'textbox', :maxlength => 255 %> (blank to inherit)
+        </p>
       <% custom_fields(:category).each do |field| -%>
         <p class="custom_field row title">
           <label for="<%= field %>"><%= humanize field %></label><br />
