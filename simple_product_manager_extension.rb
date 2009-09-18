@@ -1,7 +1,7 @@
 require 'json_fields'
 
 class SimpleProductManagerExtension < Radiant::Extension
-	version "0.4.1"
+	version "0.4.2"
 	description "Manages Products and Product Categories for use across the site."
 	url "http://github.com/jstirk/radiant-simple-product-manager/tree/master"
 	
@@ -9,6 +9,8 @@ class SimpleProductManagerExtension < Radiant::Extension
 		map.namespace 'admin' do |admin|
 			admin.resources :products, :member => { :remove => :get }
 			admin.resources :categories, :member => { :remove => :get }
+			admin.product_image 'products/upload_image/:product_id', :controller => 'products', :action => 'upload_image', :method => :post
+			admin.delete_product_image 'products/delete_image/:id', :controller => 'products', :action => 'delete_image', :method => :delete
 		end
 		map.connect 'products/:id', :controller => 'categories', :action => 'show', :id => /\d+(-[A-Za-z\-]+)?/
 		map.connect 'products/:category_id/:id', :controller => 'products', :action => 'show'

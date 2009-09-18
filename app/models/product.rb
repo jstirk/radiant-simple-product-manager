@@ -1,6 +1,6 @@
 class Product < ActiveRecord::Base
 	belongs_to :category
-	has_many :product_images, :dependent => :destroy
+	has_many :product_images, :dependent => :destroy, :conditions => [ 'parent_id IS NULL' ]
 	
 	validates_presence_of :title
 	validates_numericality_of :price, :greater_than => 0.00, :allow_nil => true

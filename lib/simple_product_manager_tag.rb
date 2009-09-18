@@ -87,26 +87,48 @@ module SimpleProductManagerTag
 		                   :delimiter => attr[:delimiter] || ",")
 	end
 	
-	desc "Renders an <img> element for the current product loaded by <r:product> or <r:products:each>.. Optionally takes 'width' and 'height'."
-	tag 'product:image' do |tag|
-		attr = tag.attr.symbolize_keys
-		product = tag.locals.product
-		image_tag product.photo, :alt => product.title, :size => "#{attr[:width]}x#{attr[:height]}"
-	end
-	
-	desc "Renders the photo URL of the current product loaded by <r:product> or <r:products:each>."
-	tag 'product:photo_url' do |tag|
-		product = tag.locals.product
-		product.photo
-	end
-
 	desc "Renders the requested field from the product loaded by <r:product:find> or <r:products:each>. Requires 'name' is provided."
 	tag 'product:field' do |tag|
 		attr = tag.attr.symbolize_keys
 		product = tag.locals.product
 		product.json_field_get(attr[:name])
 	end
+
+	tag 'product:images' do |tag|
+		tag.expand
+	end
+
+	tag 'product:image' do |tag|
+		tag.expand
+	end
+
+	desc "Loops over all of the images attached to this product. Optionally accepts 'limit' to restrict the number of images returned. Provide 'order' to sort the images (defaults to 'filename')."
+	tag "product:images:each" do |tag|
+		attr = tag.attr.symbolize_keys
+		product = tag.locals.product
+		result=[]
+		order=attr[:order] || 'filename ASC'
+		product.product_images.find(:all, :limit => attr[:limit], :order => order).each do |pi|
+			tag.locals.product_image=pi
+			result << tag.expand
+		end
+		result
+	end
 	
+	%w( description filename thumbnail_url url ).each do |field|
+		tag "product:image:#{field}" do |tag|
+			tag.locals.product_image.send(field.to_sym)
+		end
+	end
+
+	%w( thumbnail_tag tag ).each do |field|
+		desc "Renders the requested IMG tag. Optionally taxes width and height."
+		tag "product:image:#{field}" do |tag|
+			attr = tag.attr.symbolize_keys
+			tag.locals.product_image.send(field.to_sym, attr)
+		end
+	end
+
 	tag 'categories' do |tag|
 		tag.expand
 	end

@@ -3,4 +3,5 @@
 <% form_tag(admin_product_url(@product), :method => :put) do |f| %>
   <%= render :partial => 'product', :locals => { :f => f, :product => @product } %>
 <% end %>
+<%= render :partial => 'images', :locals => { :product => @product } %>
 

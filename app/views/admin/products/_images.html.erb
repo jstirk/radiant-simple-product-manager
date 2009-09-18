@@ -1,0 +1,31 @@
+			<!-- Images -->
+			<h2>Images</h2>
+			<div id="product_images">
+				<table class="index">
+					<thead>
+						<tr><th>Image</th><th>Description</th><th>Actions</th></tr>
+					</thead>
+					<tbody>
+				<% product.product_images.each do |pi| %>
+					<tr class="product_image">
+						<td><%= image_tag(pi.public_filename(:thumbnail)) %></td>
+						<td class="desc"><%= pi.description %></td>
+						<td class="remove"><%= button_to('Delete', admin_delete_product_image_url(pi), :method => :delete) %></td>
+					</tr>
+				<% end %>
+				</tbody>
+			</table>
+			<% form_tag(admin_product_image_url(:product_id => product), :multipart => :encoded) do |f| %>
+				<p class="new-image row title">
+					<label for="product_image_uploaded_data">Add an Image<label><br />
+					<%= file_field "product_image", "uploaded_data", :class => 'file' %>
+				</p>
+				<p class="new-image-description row title">
+					<label for="product_image_description">Description<label><br />
+					<%= text_field "product_image", "description", :class => 'textbox', :maxlength => 255 %>
+				</p>
+				<p class="buttons">
+					<%= submit_tag('Upload Image') %>
+				</p>
+			<% end %>
+			</div>

@@ -83,16 +83,6 @@ describe 'SimpleProductManager' do
 		end
 	end
 	
-	describe "<r:product:photo_url>" do
-		it "should work inside of products:each" do
-			pages(:home).should render("<r:products:each order=\"title\"><r:product:photo_url />,</r:products:each>").as(Product.find(:all, :order => 'title').collect { |p| p.title + '.png' }.join(',') + ',')
-		end
-		
-		it "should work inside of product" do
-			pages(:home).should render("<r:product:find where=\"title='White'\"><r:product:photo_url /></r:product:find>").as('White.png')
-		end
-	end
-
 	describe "<r:product:field>" do
 		before do
 			@p=Product.create(:title => "Test", :category => Category.find(:first))

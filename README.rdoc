@@ -68,10 +68,15 @@ they do not recurse down into sub-Categories.
   <r:product:title />
   <r:product:description />
   <r:product:price [precision="2"] [unit="$"] [separator="."] [delimiter=","] />
-  <r:product:image />
-  <r:product:photo_url />
   <r:product:field name="" />
   <r:product:link>...</r:product:link>
+  <r:product:images:each [limit=""] [order="filename ASC"]>...</r:product:images:each>
+    <r:product:image:description />
+    <r:product:image:filename />
+    <r:product:image:thumbnail_url />
+    <r:product:image:url />
+    <r:product:image:thumbnail_tag [alt="description"] [width=""] [height=""] />
+    <r:product:image:tag [alt="description"] [width=""] [height=""] />
 
 === Subcategory Tags
 
@@ -178,6 +183,9 @@ NOTE: This example assumes no subcategories
 * <r:product:url> and <r:category:url> tags
 
 == History
+
+  Version 0.4.2 (18 Sep 2009)
+  Added ability to attach multiple images to a product
 
   Version 0.4.1 (18 Sep 2009)
   Added custom layouts selected at Category level
