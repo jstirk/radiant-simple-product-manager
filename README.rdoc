@@ -93,11 +93,13 @@ If you want to use the category and product page functionality, you will need to
 
 Category pages will be displayed in the "Category" layout by default, but this can be changed by the "simple_product_manager.category_layout" setting.
 
-Within this page will be rendered the "category" snippet. The snippet will be rendered in the context of the Category, loaded by <r:category:find>.
+Layouts can also be defined on a per-Category basis, so as that separate Categories (and their decendants) can use their own Custom layout. These are defined in the Category form.
 
-Product pages will be displayed in the "Product" layout by default, but this can be changed by the "simple_product_manager.product_layout" setting.
+The "category" snippet will be rendered within the relevant layout - regardless of whether it is the default setting, or a custom layout. The snippet will be rendered in the context of the Category, loaded by <r:category:find>.
 
-Within this page will be rendered the "product" snippet. The snippet will be rendered in the context of the Product, loaded by <r:product:find>.
+Product pages will be displayed in the "Product" layout by default, but this can be changed by the "simple_product_manager.product_layout" setting, or by setting the "Custom Layout for Product" setting on the Category page.
+
+Similarly to Categories, the "product" snippet will be rendered within this layout. The snippet will be rendered in the context of the Product, loaded by <r:product:find>.
 
 No Category List is implemented, as it's fairly trivial to code your own using <r:category:each> and friends.
 
@@ -181,6 +183,7 @@ NOTE: This example assumes no subcategories
   Added subcategory support, and subcategory tags
   Added support for public Category and Product pages
   Added custom field support
+  Added custom layouts selected at Category level
 
   Version 0.3 (26 Aug 2009)
   Added ability to tag Categories
