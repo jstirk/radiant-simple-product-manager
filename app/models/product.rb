@@ -8,6 +8,10 @@ class Product < ActiveRecord::Base
 		"#{self.id}-#{self.title.gsub(/[^A-Za-z\-]/,'-').gsub(/-+/,'-')}"
 	end
 
+	def layout
+		self.category.product_layout
+	end
+
 	def custom=(values)
 		values.each do |key, value|
 			self.json_field_set(key, value)

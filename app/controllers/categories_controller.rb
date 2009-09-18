@@ -5,6 +5,6 @@ class CategoriesController < ActionController::Base
 		@category=Category.find(params[:id])
 		@title = @category.title
 
-		@radiant_layout=Radiant::Config['simple_product_manager.category_layout']
+		@radiant_layout=@category.layout
 	end
 end

@@ -2,9 +2,9 @@ class ProductsController < ActionController::Base
 	radiant_layout 'Product'
 
 	def show
-		@product=Product.find(params[:id])
+		@product=Product.find(params[:id], :include => :category)
 		@title = @product.title
 		
-		@radiant_layout=Radiant::Config['simple_product_manager.product_layout']
+		@radiant_layout=@product.layout
 	end
 end

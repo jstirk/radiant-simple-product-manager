@@ -68,4 +68,36 @@ describe Category do
 		Category.find_all_top_level.size.should == 1
 	end
 
+	describe ".layout" do
+		it "should return default values" do
+			c=Category.create(:title => "Test")
+			c.layout.should == 'Category'
+		end
+		it "should return set value" do
+			c=Category.create(:title => "Test", :custom_layout => 'CustomCategoryLayout')
+			c.layout.should == 'CustomCategoryLayout'
+		end
+		it "should inherit from parent Category" do
+			c1=Category.create(:title => "Foo", :custom_layout => 'CustomCategoryLayout')
+			c2=Category.create(:title => "Bar", :parent => c1)
+			c2.layout.should == 'CustomCategoryLayout'
+		end
+	end
+
+	describe ".product_layout" do
+		it "should return default values" do
+			c=Category.create(:title => "Test")
+			c.product_layout.should == 'Product'
+		end
+		it "should return set value" do
+			c=Category.create(:title => "Test", :custom_product_layout => 'CustomProductLayout')
+			c.product_layout.should == 'CustomProductLayout'
+		end
+		it "should inherit from parent Category" do
+			c1=Category.create(:title => "Foo", :custom_product_layout => 'CustomProductLayout')
+			c2=Category.create(:title => "Bar", :parent => c1)
+			c2.product_layout.should == 'CustomProductLayout'
+		end
+	end
+
 end

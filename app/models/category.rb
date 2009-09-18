@@ -16,6 +16,32 @@ class Category < ActiveRecord::Base
 		"#{self.id}-#{self.title.gsub(/[^A-Za-z\-]/,'-').gsub(/-+/,'-')}"
 	end
 
+	def layout
+		if !custom_layout.blank? then
+			custom_layout
+		else
+			if self.parent_id.nil? then
+				# Use the default
+				Radiant::Config['simple_product_manager.category_layout'] || 'Category'
+			else
+				self.parent.layout
+			end
+		end
+	end
+
+	def product_layout
+		if !custom_product_layout.blank? then
+			custom_product_layout
+		else
+			if self.parent_id.nil? then
+				# use the default
+				Radiant::Config['simple_product_manager.product_layout'] || 'Product'
+			else
+				self.parent.product_layout
+			end
+		end
+	end
+
 	def tag_names
 		return '' if self.tags.blank?
 		a=self.tags
