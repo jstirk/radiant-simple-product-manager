@@ -1,7 +1,7 @@
 require 'json_fields'
 
 class SimpleProductManagerExtension < Radiant::Extension
-	version "0.4"
+	version "0.4.1"
 	description "Manages Products and Product Categories for use across the site."
 	url "http://github.com/jstirk/radiant-simple-product-manager/tree/master"
 	

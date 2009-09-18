@@ -179,11 +179,13 @@ NOTE: This example assumes no subcategories
 
 == History
 
-  Version 0.4 (18 Sep 2009)
+  Version 0.4.1 (18 Sep 2009)
+  Added custom layouts selected at Category level
+
+  Version 0.4 (17 Sep 2009)
   Added subcategory support, and subcategory tags
   Added support for public Category and Product pages
   Added custom field support
-  Added custom layouts selected at Category level
 
   Version 0.3 (26 Aug 2009)
   Added ability to tag Categories
