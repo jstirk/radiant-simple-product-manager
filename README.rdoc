@@ -45,8 +45,8 @@ The categories and products are exposed to the site using the following tags:
 
 === Category Tags
 
-  <r:category:find where="" tag=""> ... </r:category:find>
-  <r:categories:each where="" tag="" order=""> ... </r:categories:each>
+  <r:category:find [where=""] [tag=""]> ... </r:category:find>
+  <r:categories:each [where=""] [tag=""] [order=""] [parent="id or title"]> ... </r:categories:each>
   <r:category:id />
   <r:category:title />
   <r:category:description />
@@ -62,12 +62,12 @@ only within that Category's products.
 In this case, only Products directly owned by the current Category are shown -
 they do not recurse down into sub-Categories.
 
-  <r:product:find where=""> ... </r:product:find>
-  <r:products:each where="" order=""> ... </r:products:each>
+  <r:product:find [where=""]> ... </r:product:find>
+  <r:products:each [where=""] [order=""]> ... </r:products:each>
   <r:product:id />
   <r:product:title />
   <r:product:description />
-  <r:product:price precision="" unit="" separator="" delimiter="" />
+  <r:product:price [precision="2"] [unit="$"] [separator="."] [delimiter=","] />
   <r:product:image />
   <r:product:photo_url />
   <r:product:field name="" />
@@ -79,8 +79,8 @@ Subcategory tags are only valid within the <r:category:find> or <r:categories:ea
 They will restrict their search to include only Categories which are direct descendants of
 the currently selected Category.
 
-  <r:subcategory:find where="" tag=""> ... </r:subcategory:find>
-  <r:subcategories:each where="" tag="" order=""> ... </r:subcategories:each>
+  <r:subcategory:find [where=""] [tag=""]> ... </r:subcategory:find>
+  <r:subcategories:each [where=""] [tag=""] [order=""]> ... </r:subcategories:each>
   <r:subcategory:id />
   <r:subcategory:title />
   <r:subcategory:description />

@@ -135,7 +135,8 @@ module SimpleProductManagerTag
 		end
 	end
 
-	desc "Iterate over all categories in the system, optionally sorted by the field specified by 'order', or constrained by 'where' or 'tag'."
+	desc "Iterate over all categories in the system, optionally sorted by the field specified by 'order', or constrained by 'where', 'tag' or 'parent'
+If specified, 'parent' can be either the ID of the parent Category, or it's title."
 	tag 'categories:each' do |tag|
 		attr = tag.attr.symbolize_keys
 		order=attr[:order] || 'title ASC'
@@ -147,8 +148,25 @@ module SimpleProductManagerTag
 			where=[where, tag_snippet].compact.join(' AND ')
 		end
 
+		if attr[:parent] then
+			if attr[:parent] =~ /^\d+$/ then
+				# It's a number, use it as an ID
+				parent_id=attr[:parent].to_i
+			else
+				parent=Category.find(:first, :conditions => { :title => attr[:parent] })
+				parent_id=parent.id
+			end
+			tag_snippet="parent_id = #{parent_id}"
+			where=[where, tag_snippet].compact.join(' AND ')
+		end
+
 		result = []
-		Category.find_all_top_level(:conditions => where, :order => order).each do |category|
+		if attr[:parent] then
+			cats=Category.find(:all, :conditions => where, :order => order)
+		else
+			cats=Category.find_all_top_level(:conditions => where, :order => order)
+		end
+		cats.each do |category|
 			tag.locals.category = category
 			result << tag.expand
 		end

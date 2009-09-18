@@ -37,6 +37,15 @@ describe 'SimpleProductManager' do
 		it "should restrict OK by tags with ordering" do
 			pages(:home).should render('<r:categories:each tag="Gluten Free" order="title DESC"><r:category:title /><br /></r:categories:each>').as('Salads<br />Pastries<br />')
 		end
+
+		it "should restrict OK by parent id" do
+			c=Category.find_by_title('Bread')
+			pages(:home).should render("<r:categories:each parent=\"#{c.id}\" order=\"title ASC\"><r:category:title /><br /></r:categories:each>").as('Sourdough Breads<br />Spelt Breads<br />Wholemeal Breads<br />')
+		end
+
+		it "should restrict OK by parent title" do
+			pages(:home).should render("<r:categories:each parent=\"Bread\" order=\"title ASC\"><r:category:title /><br /></r:categories:each>").as('Sourdough Breads<br />Spelt Breads<br />Wholemeal Breads<br />')
+		end
 	end
 	
 	%w(id title description).each do |type|
