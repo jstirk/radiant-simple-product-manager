@@ -179,7 +179,6 @@ NOTE: This example assumes no subcategories
 
 == TODO
 * Deperately need some integration tests
-* File upload for Photos
 * <r:product:url> and <r:category:url> tags
 
 == History
