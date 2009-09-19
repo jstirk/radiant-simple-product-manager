@@ -51,7 +51,7 @@ The categories and products are exposed to the site using the following tags:
   <r:category:title />
   <r:category:description />
   <r:category:field name="" />
-  <r:category:link>...</r:category:link>
+  <r:category:link [selected="current"]>...</r:category:link>
 
 === Product Tags
 
@@ -69,7 +69,7 @@ they do not recurse down into sub-Categories.
   <r:product:description />
   <r:product:price [precision="2"] [unit="$"] [separator="."] [delimiter=","] />
   <r:product:field name="" />
-  <r:product:link>...</r:product:link>
+  <r:product:link [selected="current"]>...</r:product:link>
   <r:product:images:each [limit=""] [order="filename ASC"]>...</r:product:images:each>
     <r:product:image:description />
     <r:product:image:filename />
@@ -117,7 +117,11 @@ By default, the extension adds routes for each Category and Product like :
 
 And these are provided by <r:category:link> and <r:product:link> respectively.
 
-However, the /products URL is NOT handled - this allows you to place a generic
+When on a Category URL, the link element produced by the relevant <r:category:link> will include the class specified by "selected", or the default of "current" if it is not provided.
+
+When on a Product URL, relevant link elements produced by both <r:category:link> and <r:product:link> will include the relevant class specified by "selected", or "current" if not set.
+
+It's worth noting that the /products URL is NOT handled - this allows you to place a generic
 product listing by creating a standard Radiant Page with a slug of /products
 
 == Custom Fields
@@ -182,6 +186,9 @@ NOTE: This example assumes no subcategories
 * <r:product:url> and <r:category:url> tags
 
 == History
+
+  !!!Pending
+  Relevant Category:link and Product:link tags now include a "selected" class when used on generated pages
 
   Version 0.4.2 (18 Sep 2009)
   Added ability to attach multiple images to a product

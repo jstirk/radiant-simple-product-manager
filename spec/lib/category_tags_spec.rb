@@ -74,6 +74,18 @@ describe 'SimpleProductManager' do
 		it "should work inside of categories:each" do
 			pages(:home).should render("<r:categories:each where=\"id=#{@c.id}\"><r:category:link><r:category:title /></r:category:link></r:categories:each>").as("<a href=\"/products/#{@c.to_param}\">#{@c.title}</a>")
 		end
+
+		it "should set a class when the current page" do
+			c=Category.find(:first)
+			url="/products/#{c.to_param}"
+			pages(:home).should render("<r:category:find where=\"id=#{c.id}\" internal_url=\"#{url}\"><r:category:link><r:category:title /></r:category:link></r:category:find>").as("<a href=\"#{url}\" class=\"current\">#{c.title}</a>")
+		end
+
+		it "should set a custom class when provided and selected" do
+			c=Category.find(:first)
+			url="/products/#{c.to_param}"
+			pages(:home).should render("<r:category:find where=\"id=#{c.id}\" internal_url=\"#{url}\"><r:category:link selected=\"hilight\"><r:category:title /></r:category:link></r:category:find>").as("<a href=\"#{url}\" class=\"hilight\">#{c.title}</a>")
+		end
 	end
 	
 	describe "<r:category:field>" do

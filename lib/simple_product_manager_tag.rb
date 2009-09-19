@@ -2,6 +2,7 @@ module SimpleProductManagerTag
 	include Radiant::Taggable
 	include ERB::Util
 	include ActionView::Helpers::NumberHelper
+	include ActionView::Helpers::UrlHelper
 
 	tag 'products' do |tag|
 		tag.expand
@@ -19,6 +20,8 @@ module SimpleProductManagerTag
 		product=Product.find(:first, :conditions => where)
 		if product then
 			tag.locals.product = product
+			tag.locals.product_internal_url=attr[:internal_url]
+			tag.locals.category_internal_url=attr[:internal_url].gsub(/\/[A-Za-z0-9\-]+$/, '')
 		end
 		tag.expand
 	end
@@ -51,11 +54,19 @@ module SimpleProductManagerTag
 		html_escape product.id
 	end
 
-	desc "Renders a link to the current product loaded by <r:product> or <r:products:each>"
+	desc "Renders a link to the current product loaded by <r:product> or <r:products:each>. Optionally provide 'selected' which will be the class of the link if it's the current page."
 	tag 'product:link' do |tag|
+		attr = tag.attr.symbolize_keys
 		text=tag.expand
 		text=tag.locals.product.title if text.blank?
-		"<a href=\"/products/#{tag.locals.product.category.to_param}/#{tag.locals.product.to_param}\">#{text}</a>"
+		url="/products/#{tag.locals.product.category.to_param}/#{tag.locals.product.to_param}"
+		o="<a href=\"#{url}\""
+		if url == tag.locals.product_internal_url then
+			selected=attr[:selected] || 'current'
+			o << " class=\"#{selected}\""
+		end
+		o << ">#{text}</a>"
+		o
 	end
 	
  	desc "Renders the HTML-escaped title of the current product loaded by <r:product> or <r:products:each>"
@@ -151,6 +162,7 @@ module SimpleProductManagerTag
 		category=Category.find(:first, :conditions => where)
 		if category then
 			tag.locals.category = category
+			tag.locals.category_internal_url=attr[:internal_url]
 			tag.expand
 		else
 			"<b>Can't find Category</b>"
@@ -203,9 +215,17 @@ If specified, 'parent' can be either the ID of the parent Category, or it's titl
 	
 	desc "Renders a link to the current category loaded by <r:category> or <r:categories:each>"
 	tag 'category:link' do |tag|
+		attr = tag.attr.symbolize_keys
 		text=tag.expand
 		text=tag.locals.category.title if text.blank?
-		"<a href=\"/products/#{tag.locals.category.to_param}\">#{text}</a>"
+		url="/products/#{tag.locals.category.to_param}"
+		o="<a href=\"#{url}\""
+		if url == tag.locals.category_internal_url then
+			selected=attr[:selected] || 'current'
+			o << " class=\"#{selected}\""
+		end
+		o << ">#{text}</a>"
+		o
 	end
 	
 	desc "Renders the HTML-escaped title of the current category loaded by <r:category> or <r:categories:each>"
