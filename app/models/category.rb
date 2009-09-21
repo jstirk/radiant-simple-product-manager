@@ -16,6 +16,10 @@ class Category < ActiveRecord::Base
 		"#{self.id}-#{self.title.gsub(/[^A-Za-z\-]/,'-').gsub(/-+/,'-')}"
 	end
 
+	def url
+		"/products/#{to_param}"
+	end
+
 	def layout
 		if !custom_layout.blank? then
 			custom_layout

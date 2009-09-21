@@ -9,6 +9,10 @@ class Product < ActiveRecord::Base
 		"#{self.id}-#{self.title.gsub(/[^A-Za-z\-]/,'-').gsub(/-+/,'-')}"
 	end
 
+	def url
+		"#{self.category.url}/#{self.to_param}"
+	end
+
 	def layout
 		self.category.product_layout
 	end

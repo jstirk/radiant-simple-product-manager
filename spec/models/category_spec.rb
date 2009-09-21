@@ -68,6 +68,20 @@ describe Category do
 		Category.find_all_top_level.size.should == 1
 	end
 
+	describe "instance" do
+		before do
+			@category.save
+		end
+
+		it "should generate a valid parameter string" do	
+			@category.to_param.should =~ /^\d+-[A-Za-z0-9\-]+/
+		end
+
+		it "should generate a valid url" do
+			@category.url.should == "/products/#{@category.to_param}"
+		end
+	end
+	
 	describe ".layout" do
 		it "should return default values" do
 			c=Category.create(:title => "Test")

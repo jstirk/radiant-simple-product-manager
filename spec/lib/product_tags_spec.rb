@@ -57,27 +57,29 @@ describe 'SimpleProductManager' do
 	describe "<r:product:link>" do
 		it "should work inside of product:find" do
 			p=Product.find(:first)
-			pages(:home).should render("<r:product:find where=\"id=#{p.id}\"><r:product:link><r:product:title /></r:product:link></r:product:find>").as("<a href=\"/products/#{p.category.to_param}/#{p.to_param}\">#{p.title}</a>")
+			pages(:home).should render("<r:product:find where=\"id=#{p.id}\"><r:product:link><r:product:title /></r:product:link></r:product:find>").as("<a href=\"#{p.url}\">#{p.title}</a>")
 		end
 		it "should default to the title if no content" do
 			p=Product.find(:first)
-			pages(:home).should render("<r:product:find where=\"id=#{p.id}\"><r:product:link /></r:product:find>").as("<a href=\"/products/#{p.category.to_param}/#{p.to_param}\">#{p.title}</a>")
+			pages(:home).should render("<r:product:find where=\"id=#{p.id}\"><r:product:link /></r:product:find>").as("<a href=\"#{p.url}\">#{p.title}</a>")
 		end
 		it "should work inside of products:each" do
 			p=Product.find(:first)
-			pages(:home).should render("<r:products:each where=\"id=#{p.id}\"><r:product:link><r:product:title /></r:product:link></r:products:each>").as("<a href=\"/products/#{p.category.to_param}/#{p.to_param}\">#{p.title}</a>")
+			pages(:home).should render("<r:products:each where=\"id=#{p.id}\"><r:product:link><r:product:title /></r:product:link></r:products:each>").as("<a href=\"#{p.url}\">#{p.title}</a>")
 		end
 
 		it "should set a class when the current page" do
 			p=Product.find(:first)
-			url="/products/#{p.category.to_param}/#{p.to_param}"
-			pages(:home).should render("<r:product:find where=\"id=#{p.id}\" internal_url=\"#{url}\"><r:product:link><r:product:title /></r:product:link></r:product:find>").as("<a href=\"#{url}\" class=\"current\">#{p.title}</a>")
+			url=p.url
+			page=RailsPage.new(:title => 'Product Test', :url => url)
+			page.should render("<r:product:find where=\"id=#{p.id}\"><r:product:link><r:product:title /></r:product:link></r:product:find>").as("<a href=\"#{url}\" class=\"current\">#{p.title}</a>")
 		end
 
 		it "should set a custom class when provided and selected" do
 			p=Product.find(:first)
-			url="/products/#{p.category.to_param}/#{p.to_param}"
-			pages(:home).should render("<r:product:find where=\"id=#{p.id}\" internal_url=\"#{url}\"><r:product:link selected=\"hilight\"><r:product:title /></r:product:link></r:product:find>").as("<a href=\"#{url}\" class=\"hilight\">#{p.title}</a>")
+			url=p.url
+			page=RailsPage.new(:title => 'Product Test', :url => url)
+			page.should render("<r:product:find where=\"id=#{p.id}\"><r:product:link selected=\"hilight\"><r:product:title /></r:product:link></r:product:find>").as("<a href=\"#{url}\" class=\"hilight\">#{p.title}</a>")
 		end
 	end
 	

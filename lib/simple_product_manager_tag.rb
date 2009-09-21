@@ -20,8 +20,8 @@ module SimpleProductManagerTag
 		product=Product.find(:first, :conditions => where)
 		if product then
 			tag.locals.product = product
-			tag.locals.product_internal_url=attr[:internal_url] unless attr[:internal_url].blank?
-			tag.locals.category_internal_url=attr[:internal_url].gsub(/\/[A-Za-z0-9\-]+$/, '') unless attr[:internal_url].blank?
+			#tag.locals.product_internal_url=attr[:internal_url] unless attr[:internal_url].blank?
+			#tag.locals.category_internal_url=attr[:internal_url].gsub(/\/[A-Za-z0-9\-]+$/, '') unless attr[:internal_url].blank?
 		end
 		tag.expand
 	end
@@ -59,9 +59,8 @@ module SimpleProductManagerTag
 		attr = tag.attr.symbolize_keys
 		text=tag.expand
 		text=tag.locals.product.title if text.blank?
-		url="/products/#{tag.locals.product.category.to_param}/#{tag.locals.product.to_param}"
-		o="<a href=\"#{url}\""
-		if url == tag.locals.product_internal_url then
+		o="<a href=\"#{tag.locals.product.url}\""
+		if tag.locals.product.url == tag.locals.page.url then
 			selected=attr[:selected] || 'current'
 			o << " class=\"#{selected}\""
 		end
@@ -166,7 +165,7 @@ module SimpleProductManagerTag
 		category=Category.find(:first, :conditions => where)
 		if category then
 			tag.locals.category = category
-			tag.locals.category_internal_url=attr[:internal_url] unless attr[:internal_url].blank?
+			#tag.locals.category_internal_url=attr[:internal_url] unless attr[:internal_url].blank?
 			tag.expand
 		else
 			"<b>Can't find Category</b>"
@@ -222,9 +221,8 @@ If specified, 'parent' can be either the ID of the parent Category, or it's titl
 		attr = tag.attr.symbolize_keys
 		text=tag.expand
 		text=tag.locals.category.title if text.blank?
-		url="/products/#{tag.locals.category.to_param}"
-		o="<a href=\"#{url}\""
-		if url == tag.locals.category_internal_url then
+		o="<a href=\"#{tag.locals.category.url}\""
+		if tag.locals.category.url == tag.locals.page.url then
 			selected=attr[:selected] || 'current'
 			o << " class=\"#{selected}\""
 		end
@@ -307,9 +305,16 @@ If specified, 'parent' can be either the ID of the parent Category, or it's titl
 	
 	desc "Renders a link to the current subcategory loaded by <r:subcategory> or <r:subcategories:each>"
 	tag 'subcategory:link' do |tag|
+		attr = tag.attr.symbolize_keys
 		text=tag.expand
 		text=tag.locals.subcategory.title if text.blank?
-		"<a href=\"/products/#{tag.locals.subcategory.to_param}\">#{text}</a>"
+		o="<a href=\"#{tag.locals.subcategory.url}\""
+		if tag.locals.subcategory.url == tag.locals.page.url then
+			selected=attr[:selected] || 'current'
+			o << " class=\"#{selected}\""
+		end
+		o << ">#{text}</a>"
+		o
 	end
 	
 	desc "Renders the HTML-escaped title of the current subcategory loaded by <r:subcategory> or <r:subcategories:each>"

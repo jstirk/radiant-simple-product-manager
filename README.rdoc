@@ -193,6 +193,10 @@ NOTE: This example assumes no subcategories
 
 == History
 
+  Version 0.5.1 (21 Sep 2009)
+  Bugfix with Category and Product links not always selecting correctly
+  Cleaned up url code (possibly leading into customizable product root)
+
   Version 0.5 (21 Sep 2009)
   Relevant Category:link and Product:link tags now include a "selected" class when used on generated pages
   Product image sizes can be changed, and referenced by <r:product:image type="SIZE" />
