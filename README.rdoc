@@ -73,10 +73,8 @@ they do not recurse down into sub-Categories.
   <r:product:images:each [limit=""] [order="filename ASC"]>...</r:product:images:each>
     <r:product:image:description />
     <r:product:image:filename />
-    <r:product:image:thumbnail_url />
-    <r:product:image:url />
-    <r:product:image:thumbnail_tag [alt="description"] [width=""] [height=""] />
-    <r:product:image:tag [alt="description"] [width=""] [height=""] />
+    <r:product:image:url [type="product"] />
+    <r:product:image:tag [type="product"] [alt="description"] [width=""] [height=""] />
 
 === Subcategory Tags
 
@@ -140,6 +138,14 @@ For example:
     <p><r:category:title />: Average lead time required is <r:category:field name="leadtime" /></p>
   </r:categories:each>
 
+== Photo Thumbnails
+
+The size of the resized images can be changed by editing the simple_product_manager_extension,rb file, and changing the PRODUCT_ATTACHMENT_SIZES constant.
+
+You will need to retain the :product setting, as that is the default size used when the "type" isn't specified for <r:product:image:url /> or <r:product:image:tag />
+
+The size formats are those expected by attachment_fu.
+
 == Examples
 
 === Product Listing
@@ -187,8 +193,9 @@ NOTE: This example assumes no subcategories
 
 == History
 
-  !!!Pending
+  Version 0.5 (21 Sep 2009)
   Relevant Category:link and Product:link tags now include a "selected" class when used on generated pages
+  Product image sizes can be changed, and referenced by <r:product:image type="SIZE" />
 
   Version 0.4.2 (18 Sep 2009)
   Added ability to attach multiple images to a product

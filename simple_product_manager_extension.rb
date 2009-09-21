@@ -1,7 +1,10 @@
 require 'json_fields'
 
+# Set the default attachment sizes
+PRODUCT_ATTACHMENT_SIZES={:thumbnail => '75x75>', :product => '250x250>'}
+		
 class SimpleProductManagerExtension < Radiant::Extension
-	version "0.4.2"
+	version "0.5"
 	description "Manages Products and Product Categories for use across the site."
 	url "http://github.com/jstirk/radiant-simple-product-manager/tree/master"
 	

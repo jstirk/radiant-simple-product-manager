@@ -24,7 +24,7 @@ describe 'SimpleProductManager' do
 			pages(:home).should render("<r:product:find where='id=#{@p.id}'><r:product:images:each limit=\"2\" order=\"description ASC\"><r:image:description /></r:product:images:each></r:product:find>").as('BarBletch')
 		end
 
-		%w( description filename thumbnail_url url thumbnail_tag tag ).each do |field|
+		%w( description filename url tag ).each do |field|
 			it "should expose images to <r:product:image:#{field}>" do
 				pages(:home).should render("<r:product:find where='id=#{@p.id}'><r:product:images:each><r:product:image:#{field} /></r:product:images:each></r:product:find>").as(@p.product_images.find(:all, :order => 'filename ASC').collect { |i| i.send(field.to_sym) }.join(''))
 			end
@@ -39,11 +39,11 @@ describe 'SimpleProductManager' do
 		end
 	end
 	
-	describe "<r:product:image:thumbnail_tag>" do
+	describe "<r:product:image:tag type='thumbnail'>" do
 		it "should accept width and height attributes" do
 			p=Product.create(:title => 'Test', :category => Category.find(:first))
 			pi=p.product_images.create!(:description => 'Bletch', :filename => "foo.jpg", :content_type => 'images/jpeg', :size => 100)
-			pages(:home).should render("<r:product:find where='id=#{p.id}'><r:product:images:each><r:product:image:thumbnail_tag width=\"75\" height=\"80\" /></r:product:images:each></r:product:find>").as("<img src=\"#{pi.thumbnail_url}\" alt=\"Bletch\" height=\"80\" width=\"75\" />")
+			pages(:home).should render("<r:product:find where='id=#{p.id}'><r:product:images:each><r:product:image:tag type='thumbnail' width=\"75\" height=\"80\" /></r:product:images:each></r:product:find>").as("<img src=\"#{pi.url(:thumbnail)}\" alt=\"Bletch\" height=\"80\" width=\"75\" />")
 		end
 	end
 

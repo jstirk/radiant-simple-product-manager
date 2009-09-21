@@ -126,18 +126,22 @@ module SimpleProductManagerTag
 		result
 	end
 	
-	%w( description filename thumbnail_url url ).each do |field|
+	%w( description filename ).each do |field|
 		tag "product:image:#{field}" do |tag|
 			tag.locals.product_image.send(field.to_sym)
 		end
 	end
 
-	%w( thumbnail_tag tag ).each do |field|
-		desc "Renders the requested IMG tag. Optionally taxes width and height."
-		tag "product:image:#{field}" do |tag|
-			attr = tag.attr.symbolize_keys
-			tag.locals.product_image.send(field.to_sym, attr)
-		end
+	desc "Renders the requested IMG tag. Optionally taxes width and height. Defaults to the standard image, but image type can be set using \"type\". Valid types are fullsize,#{PRODUCT_ATTACHMENT_SIZES.keys.join(',')}."
+	tag "product:image:tag" do |tag|
+		attr = tag.attr.symbolize_keys
+		tag.locals.product_image.tag(attr)
+	end
+
+	desc "Renders the URL to the requested image. Defaults to the standard image, but image type can be set using \"type\". Valid types are fullsize,#{PRODUCT_ATTACHMENT_SIZES.keys.join(',')}."
+	tag "product:image:url" do |tag|
+		attr = tag.attr.symbolize_keys
+		tag.locals.product_image.url(attr[:type])
 	end
 
 	tag 'categories' do |tag|
