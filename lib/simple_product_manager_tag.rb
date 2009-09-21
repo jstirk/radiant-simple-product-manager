@@ -20,8 +20,8 @@ module SimpleProductManagerTag
 		product=Product.find(:first, :conditions => where)
 		if product then
 			tag.locals.product = product
-			tag.locals.product_internal_url=attr[:internal_url]
-			tag.locals.category_internal_url=attr[:internal_url].gsub(/\/[A-Za-z0-9\-]+$/, '')
+			tag.locals.product_internal_url=attr[:internal_url] unless attr[:internal_url].blank?
+			tag.locals.category_internal_url=attr[:internal_url].gsub(/\/[A-Za-z0-9\-]+$/, '') unless attr[:internal_url].blank?
 		end
 		tag.expand
 	end
@@ -162,7 +162,7 @@ module SimpleProductManagerTag
 		category=Category.find(:first, :conditions => where)
 		if category then
 			tag.locals.category = category
-			tag.locals.category_internal_url=attr[:internal_url]
+			tag.locals.category_internal_url=attr[:internal_url] unless attr[:internal_url].blank?
 			tag.expand
 		else
 			"<b>Can't find Category</b>"
