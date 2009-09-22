@@ -14,6 +14,26 @@ describe ProductImage do
 		@product_image.description.should == 'Foo'
 	end
 
+	it "should set tags for DB in correct format from tag_names" do
+		@product_image.tag_names='Foo, Bar'
+		@product_image.tags.should == ',Foo,Bar,'
+		@product_image.tag_names='Bletch Blomb'
+		@product_image.tags.should == ',Bletch Blomb,'
+		@product_image.tag_names=[ 'Foo', 'Bar', 'Bletch Blomb' ]
+		@product_image.tags.should == ',Foo,Bar,Bletch Blomb,'
+		@product_image.tag_names=''
+		@product_image.tags.should == ''
+		@product_image.tag_names=nil
+		@product_image.tags.should == ''
+	end
+
+	it "should return tags in human format from tag_names" do
+		@product_image.tags=',Foo,Bar,Bletch Blomb,'
+		@product_image.tag_names.should == 'Foo, Bar, Bletch Blomb'
+		@product_image.tags=nil
+		@product_image.tag_names.should == ''
+	end
+
 	describe "saved instance" do
 		before do
 			@product_image.save!

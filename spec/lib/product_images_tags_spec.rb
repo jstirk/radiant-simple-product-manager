@@ -7,9 +7,9 @@ describe 'SimpleProductManager' do
 	describe "<r:product:images:each>" do
 		before do
 			@p=Product.create(:title => 'Test', :category => Category.find(:first))
-			@p.product_images.create!(:description => 'Foo', :filename => "foo.jpg", :content_type => 'images/jpeg', :size => 100)
-			@p.product_images.create!(:description => 'Bar', :filename => "bar.jpg", :content_type => 'images/jpeg', :size => 100)
-			@p.product_images.create!(:description => 'Bletch', :filename => "bletch.jpg", :content_type => 'images/jpeg', :size => 100)
+			@p.product_images.create!(:description => 'Foo', :filename => "foo.jpg", :content_type => 'images/jpeg', :size => 100, :tag_names => 'foo,bar')
+			@p.product_images.create!(:description => 'Bar', :filename => "bar.jpg", :content_type => 'images/jpeg', :size => 100, :tag_names => 'bar,bletch')
+			@p.product_images.create!(:description => 'Bletch', :filename => "bletch.jpg", :content_type => 'images/jpeg', :size => 100, :tag_names => 'bletch')
 		end
 
 		it "should itterate over all the images for this product" do
@@ -22,6 +22,10 @@ describe 'SimpleProductManager' do
 
 		it "should itterate over all the images for this product in order with a limit" do
 			pages(:home).should render("<r:product:find where='id=#{@p.id}'><r:product:images:each limit=\"2\" order=\"description ASC\"><r:image:description /></r:product:images:each></r:product:find>").as('BarBletch')
+		end
+
+		it "should itterate over all the images for this product in order with a tag" do
+			pages(:home).should render("<r:product:find where='id=#{@p.id}'><r:product:images:each tag=\"bar\" order=\"description ASC\"><r:image:description /></r:product:images:each></r:product:find>").as('BarFoo')
 		end
 
 		%w( description filename url tag ).each do |field|

@@ -70,7 +70,7 @@ they do not recurse down into sub-Categories.
   <r:product:price [precision="2"] [unit="$"] [separator="."] [delimiter=","] />
   <r:product:field name="" />
   <r:product:link [selected="current"]>...</r:product:link>
-  <r:product:images:each [limit=""] [order="filename ASC"]>...</r:product:images:each>
+  <r:product:images:each [tag=""] [limit=""] [order="filename ASC"]>...</r:product:images:each>
     <r:product:image:description />
     <r:product:image:filename />
     <r:product:image:url [type="product"] />
@@ -192,6 +192,9 @@ NOTE: This example assumes no subcategories
 * <r:product:url> and <r:category:url> tags
 
 == History
+
+  Version 0.5.2 (22 Sep 2009)
+  Product Images can now be tagged
 
   Version 0.5.1 (21 Sep 2009)
   Bugfix with Category and Product links not always selecting correctly

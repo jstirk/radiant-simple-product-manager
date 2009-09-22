@@ -116,9 +116,17 @@ module SimpleProductManagerTag
 	tag "product:images:each" do |tag|
 		attr = tag.attr.symbolize_keys
 		product = tag.locals.product
+
+		where=nil
+		# If tag is specified, we look for a single tag for
+		if attr[:tag] then
+			tag_snippet="tags LIKE \"%%,#{attr[:tag]},%%\""
+			where=[where, tag_snippet].compact.join(' AND ')
+		end
+
 		result=[]
 		order=attr[:order] || 'filename ASC'
-		product.product_images.find(:all, :limit => attr[:limit], :order => order).each do |pi|
+		product.product_images.find(:all, :conditions => where, :limit => attr[:limit], :order => order).each do |pi|
 			tag.locals.product_image=pi
 			result << tag.expand
 		end
